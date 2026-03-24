@@ -16,7 +16,7 @@ const validateUsername = body("username")
         if (user) {
             throw new Error('')
         }
-    }).withMessage('user with this username already exits');
+    }).withMessage('user with this username already exits')
 
 const validatePassword = body("password")
     .isLength({ min: 8 })

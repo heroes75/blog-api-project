@@ -26,7 +26,7 @@ model Posts {
     text      String
     createdAt DateTime   @default(now())
     updatedAt DateTime   @updatedAt
-    published Boolean
+    published Boolean?   @default(false)
     author    Users      @relation(fields: [authorId], references: [id])
     authorId  String
     comments  Comments[]

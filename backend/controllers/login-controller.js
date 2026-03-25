@@ -11,7 +11,7 @@ async function loginController(req, res) {
         }
     })
     if(!user) {
-        res.status(401).json({
+        return res.status(401).json({
             message: 'incorrect username'
         })
     }
@@ -19,11 +19,14 @@ async function loginController(req, res) {
     const compare = await bcrypt.compare(password, user.password)
 
     if (!compare) {
-        res.status(401).json({
+        return res.status(401).json({
             message: 'incorrect password'
         })
     }
-    const token = jwt.sign({user}, process.env.SECRET, {expiresIn: '1h'})
+    console.log('process.env.SECRET:', process.env.SECRET)
+    const opts = {}
+    opts.expiresIn = '7d'
+    const token = jwt.sign({user}, process.env.SECRET, opts)
     res.status(200).json({
         user,
         token

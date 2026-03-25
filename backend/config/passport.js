@@ -9,11 +9,10 @@ let opts = {}
 opts.jwtFromRequest = extractJwt.fromAuthHeaderAsBearerToken()
 opts.secretOrKey = process.env.SECRET
 
-const strategy = new JwtStrategy(opts, (just_payload, done) => {
-    console.log('just_payload:', just_payload)
-    const user = prisma.users.findUnique({
+const strategy = new JwtStrategy(opts, async (just_payload, done) => {
+    const user = await  prisma.users.findUnique({
         where: {
-            id: just_payload.id
+            id: just_payload.user.id
         }
     })
 
@@ -24,6 +23,6 @@ const strategy = new JwtStrategy(opts, (just_payload, done) => {
 
 })
 
-// passport.use(strategy)
+passport.use(strategy)
 
-module.exports = strategy
+//  strategy

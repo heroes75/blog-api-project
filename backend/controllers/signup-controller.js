@@ -32,7 +32,7 @@ async function signup(req, res) {
     const errors = validationResult(req);
     console.log("errors:", errors);
     if (!errors.isEmpty()) {
-        return res.status(401).json({
+        return res.status(400).json({
             message: errors.errors.map(error => error.msg),
             statusCode: 401,
         });

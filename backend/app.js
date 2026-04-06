@@ -3,12 +3,12 @@ require("./config/passport");
 const express = require("express");
 const cors = require("cors");
 const passport = require('passport')
-const models = require("./models/index");
 const signupRouter = require("./routes/signup-router");
 const loginRouter = require("./routes/login-router");
 const postsRouter = require("./routes/posts-router");
 const logoutRouter = require("./routes/logout-router");
 const { prisma } = require("./lib/prisma");
+const homeRouter = require("./routes/home-router");
 
 const app = express();
 
@@ -29,6 +29,7 @@ app.use(async (req, res, next) => {
     next()
 });
 
+app.use("/", homeRouter);
 app.use("/signup", signupRouter);
 app.use("/login", loginRouter);
 app.use("/logout", passport.authenticate('jwt', {session: false}), logoutRouter);

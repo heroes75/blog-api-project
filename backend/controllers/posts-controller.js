@@ -2,7 +2,7 @@ const { prisma } = require("../lib/prisma");
 
 async function getAllPosts(req, res) {
     res.json({
-        users: req.context.models.posts.filter((post) => post.published),
+        posts: req.context.models.posts.filter((post) => post.published),
     });
 }
 

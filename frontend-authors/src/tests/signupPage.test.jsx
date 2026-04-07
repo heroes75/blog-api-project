@@ -42,19 +42,14 @@ describe("if user wrong input it's should be show the right message error", () =
     beforeEach(() => {
         render(<SignupForm />);
     });
-    test('if user type empty it\'s should be show "Please enter.."', async () => {
+    test('if user type an empty password or username it\'s should be show "Please enter.."', async () => {
         const button = screen.getByRole("button");
         const messageError = screen.getByTestId("message-error");
         const user = userEvent.setup();
-        // await user.type(inputUsername, 'qw')
-        // await user.type(inputPassword, '')
-        // await user.type(inputConfirmPassword, '')
         await user.click(button);
-        // await waitFor(() => {
-
-        // expect(screen.getByText('Please enter a value')).toBeInTheDocument()
-        // })
-        expect(messageError).toContainHTML("<li>Please enter an username</li>");
-        expect(messageError).toContainHTML("<li>Please enter an password</li>");
+        expect(messageError).toContainElement(screen.getByText('Please enter an username'));
+        expect(messageError).toContainElement(screen.getByText('Please enter a password'));
+        expect(messageError).toContainElement(screen.getByText('Please confirm your password'));
     });
+    // test('if ')
 });

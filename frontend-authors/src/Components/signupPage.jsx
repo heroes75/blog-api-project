@@ -1,13 +1,16 @@
 import { useRef, useState } from "react"
+import { useNavigate } from "react-router"
 
 export default function SignupForm() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const [errorMessages, setErrorMessages] = useState([])
+    const navigate = useNavigate()
     const inputUsername = useRef(null)
     const inputPassword = useRef(null)
     const inputConfirmPassword = useRef(null)
+    const form = useRef(null)
     function handleUsername (e) {
         setUsername(e.target.value)
     }
@@ -21,18 +24,15 @@ export default function SignupForm() {
     }
 
     function handleSubmit(e) {
-        const formElement = e.target
         setErrorMessages([])
-        console.log('nputUsername.current.ValueMissing:', inputUsername.current.validity.valueMissing)
         inputUsername.current.reportValidity()
         inputPassword.current.reportValidity()
         inputConfirmPassword.current.reportValidity()
-        console.log('username:', username)
         if(username === '') {
             inputUsername.current.setCustomValidity('Please enter an username')
             setErrorMessages(prevState => prevState.concat('Please enter an username'))
         } else  {
-            inputUsername.current.setCustomValidity('your username must be only alphanumeric')
+            inputUsername.current.setCustomValidity('')
         }
 
         if (/[\W]/g.test(username)) {
@@ -59,7 +59,7 @@ export default function SignupForm() {
             inputPassword.current.setCustomValidity(msg)
             setErrorMessages(prevState => prevState.concat(msg))
         } else if(!/\W+/g.test(password)) {
-            const msg = 'your password must contains at least non alphanumeric character'
+            const msg = 'your password must contains at least one non alphanumeric character'
             inputPassword.current.setCustomValidity(msg)
             setErrorMessages(prevState => prevState.concat(msg))
         } else {
@@ -76,21 +76,45 @@ export default function SignupForm() {
         } else {
             inputConfirmPassword.current.setCustomValidity('')
         }
+        console.log('!form.current.checkValidity():', !form.current.checkValidity())
+        if (!form.current.checkValidity()) {
+            return
+        }
+
+        fetch('http://localhost:5000/signup', {
+            method: 'POST',
+            type: 'cors',
+            body: JSON.stringify({username: username, password: password})
+        }).then(res => {
+            
+            return res.json()
+        }).then(res => {
+            if (res.statusCode >= 400) {
+                console.log('res', res)
+                return setErrorMessages(res.message)
+            }
+            navigate('/login')
+            console.log(res)
+            
+        })
+        .catch(err => {
+            console.error(err)
+        }) 
 
         e.preventDefault()
     }
     return (
         <>
-            <form role="form" action="" method="post">
-                <ul data-testid="message-error">
-                    {errorMessages.map(message => <li key={message}>{message}</li>)}
+            <form ref={form} role="form" action="" method="post">
+                <ul>
+                    {errorMessages.map(message => <li aria-label={message} key={message}>{message}</li>)}
                 </ul>
                 <label htmlFor="username">Enter your username: </label>
                 <input  value={username} onChange={(e) => handleUsername(e)} ref={inputUsername}  type="text" id="username" name="username" placeholder="your username"/>
                 <label htmlFor="password">Enter your password: </label>
                 <input type="password" value={password} ref={inputPassword} onChange={e=> handlePassword(e)} id="password" name="password" placeholder="your password" />
                 <label htmlFor="confirmPassword">Confirm your password: </label>
-                <input type="password" value={confirmPassword} ref={inputConfirmPassword} onChange={e => handleConfirmPassword(e)} id="confirmPassword" name="confirmPassword" placeholder="confirm your password" />
+                <input type="password" value={confirmPassword} ref={inputConfirmPassword} onChange={e => handleConfirmPassword(e)} id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" />
                 <button type="submit" onClick={e => handleSubmit(e)}>Submit</button>
             </form>
         </>

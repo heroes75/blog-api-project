@@ -2,7 +2,9 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { describe, test, vi, expect, beforeEach } from "vitest";
 import SignupForm from "../Components/signupPage";
 import userEvent from "@testing-library/user-event";
-import { MemoryRouter, Routes, Route } from "react-router";
+import { MemoryRouter, Routes, Route, RouterProvider, useNavigate } from "react-router";
+import routes from '../routes'
+import { createMemoryRouter } from "react-router";
 
 describe("should be have an input and label username, an input and label password and confirm password and a button and a form", () => {
     test("should be have an input and label username", () => {
@@ -20,7 +22,7 @@ describe("should be have an input and label username, an input and label passwor
         const inputPassword = screen.getByPlaceholderText("your password");
         const labelPassword = screen.getByLabelText(/Enter your password:/i);
         const inputConfirmPassword = screen.getByPlaceholderText(
-            "confirm your password",
+            "Confirm your password",
         );
         const labelConfirmPassword = screen.getByLabelText(
             /Confirm your password:/i,
@@ -38,18 +40,87 @@ describe("should be have an input and label username, an input and label passwor
     });
 });
 
-describe("if user wrong input it's should be show the right message error", () => {
+describe("if user type a wrong input it's should be show the right message error", () => {
     beforeEach(() => {
-        render(<SignupForm />);
+        // render(<SignupForm />);
+        const router = createMemoryRouter(routes, {initialEntries: ['/signup']})
+        window.fetch = vi.fn(() =>  {})
+        render(<RouterProvider router={router}/>)
     });
-    test('if user type an empty password or username it\'s should be show "Please enter.."', async () => {
+    test('if user type an empty password, username or confirm password it\'s should be show "Please enter.."', async () => {
         const button = screen.getByRole("button");
-        const messageError = screen.getByTestId("message-error");
+        const messageError = screen.getByRole("list");
         const user = userEvent.setup();
         await user.click(button);
         expect(messageError).toContainElement(screen.getByText('Please enter an username'));
         expect(messageError).toContainElement(screen.getByText('Please enter a password'));
         expect(messageError).toContainElement(screen.getByText('Please confirm your password'));
     });
-    // test('if ')
+    test('if user type a username with a non-alphanumeric character and a password of length < 8 with a different confirm password',async () => {
+        const button = screen.getByRole('button')
+        const inputUsername = screen.getByPlaceholderText('your username')
+        const inputPassword = screen.getByPlaceholderText('your password')
+        const inputConfirmPassword = screen.getByPlaceholderText('Confirm your password')
+        const messageError = screen.getByRole("list");
+        const user = userEvent.setup();
+        await user.type(inputUsername, 'h1£')
+        await user.type(inputPassword, 'h1')
+        await user.type(inputConfirmPassword, 'h')
+        await user.click(button)
+        expect(messageError).toContainElement(screen.getByRole('listitem', {name: /your username must be only alphanumeric/i}))
+        expect(messageError).toContainElement(screen.getByRole('listitem', {name: /your password must overflow 8 characters/i}))
+        expect(messageError).toContainElement(screen.getByRole('listitem', {name: /The confirmation of your password must be equal to your password/i}))
+    })
+    test('if user type a password with no number should display an error',async () => {
+        const button = screen.getByRole('button')
+        const inputPassword = screen.getByPlaceholderText('your password')
+        const messageError = screen.getByRole("list");
+        const user = userEvent.setup();
+        await user.type(inputPassword, 'qwertyqwerty')
+        await user.click(button)
+        expect(messageError).toContainElement(screen.getByRole('listitem', {name: /your password must contains at least one number/i}))
+    })
+    test('if user type a password with no upper case it\'s should display an error', async ()  => {
+        const button = screen.getByRole('button')
+        const inputPassword = screen.getByPlaceholderText('your password')
+        const messageError = screen.getByRole("list");
+        const user = userEvent.setup();
+        await user.type(inputPassword, 'qwertyqwerty1')
+        await user.click(button)
+        expect(messageError).toContainElement(screen.getByRole('listitem', {name: /your password must contains at least one upper case/i}))
+    })
+    test('if user type a password with no non-alphanumeric character it\'s should display an error', async () => {
+        const button = screen.getByRole('button')
+        const inputPassword = screen.getByPlaceholderText('your password')
+        const messageError = screen.getByRole("list");
+        const user = userEvent.setup();
+        await user.type(inputPassword, 'qwertyqwerty1A')
+        await user.click(button)
+        expect(messageError).toContainElement(screen.getByRole('listitem', {name: /your password must contains at least one non alphanumeric character/i}))
+    })
 });
+
+describe('user can signup', async () => {
+    test('if user type the right input it\'s should be get a json', async () => {
+        const router = createMemoryRouter(routes, {initialEntries: ['/signup']})
+        window.fetch = vi.fn(() =>  new Promise((resolve, reject) => {
+            const navigate = useNavigate()
+            navigate('/login')
+            return resolve(JSON.stringify({name: 'user', password: '1234', id: '123'}))
+        }))
+        render(<RouterProvider router={router}/>)
+        const button = screen.getByRole('button')
+        const inputUsername = screen.getByPlaceholderText('your username')
+        const inputPassword = screen.getByPlaceholderText('your password')
+        const inputConfirmPassword = screen.getByPlaceholderText('Confirm your password')
+        // const messageError = screen.getByRole("list");
+        const user = userEvent.setup();
+        await user.type(inputUsername, 'h1roes75')
+        await user.type(inputPassword, '1234567@A')
+        await user.type(inputConfirmPassword, '1234567@A')
+        await user.click(button) 
+        const form = screen.getByRole('form')
+        await waitFor(() => expect(form).not.toBeInTheDocument())
+        screen.debug()
+    })
+})

@@ -29,6 +29,7 @@ const validatePassword = body("password")
     .withMessage(`${password} contains at least non alphanumeric character`);
 
 async function signup(req, res) {
+    console.log('req:', req)
     const errors = validationResult(req);
     console.log("errors:", errors);
     if (!errors.isEmpty()) {

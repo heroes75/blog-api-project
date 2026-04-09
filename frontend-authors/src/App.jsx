@@ -9,7 +9,7 @@ function App() {
     useEffect(() => {
         let ignore = false;
 
-        fetch("http://localhost:5000/")
+        fetch("http://localhost:8000/")
             .then((res) => {
                 return res.json();
             })
@@ -23,7 +23,7 @@ function App() {
                 setError(err);
                 console.error(err);
             })
-            .finally((res) => setIsLoading(false));
+            .finally(() => setIsLoading(false));
         return () => {
             ignore = true;
         };

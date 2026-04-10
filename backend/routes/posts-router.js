@@ -1,4 +1,4 @@
-// require('../config/passport')
+require('../config/passport')
 const {Router} = require('express')
 const passport = require('passport')
 const { getAllPosts, createPost, updatePost, deletePost, getAllPostOfUser, getPost } = require('../controllers/posts-controller')

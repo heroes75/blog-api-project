@@ -24,7 +24,6 @@ app.use(async (req, res, next) => {
             posts,
             comments,
         }
-        
     }
     next()
 });

@@ -16,8 +16,9 @@ const strategy = new JwtStrategy(opts, async (just_payload, done) => {
         }
     })
 
+    console.log('user:', user)
     if (!user) {
-        return done(null, false)
+        return done(null, {username: ''})
     }
     return done(null, user)
 

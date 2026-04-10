@@ -111,6 +111,13 @@ async function getPost(req, res) {
         return res.status(404).json({
             message: "no post find in the system"
         })
+    } else if(!post.published) {
+        if (req.user?.id === post.authorId) {
+            return res.status(200).json({post})
+        }
+        return res.status(403).json({
+            message: 'access denied',
+        })
     }
     res.status(200).json({
         post

@@ -4,7 +4,7 @@ import { createMemoryRouter, RouterProvider } from "react-router";
 import routes from "../routes";
 import userEvent from "@testing-library/user-event";
 
-const navigate = vi.fn(() => {});
+const navigate = vi.fn()
 vi.mock(import("react-router"), async (importOriginal) => {
     const mod = await importOriginal()
     return {
@@ -90,9 +90,11 @@ describe("if user type the right username and password it's should connected", (
         const inputPassword = screen.getByPlaceholderText("your password");
         const button = screen.getByRole("button");
         const user = userEvent.setup();
-        await user.type(inputUsername, "qwerty");
-        await user.type(inputPassword, "qwerty");
+        const localStorageSpy = vi.spyOn(Storage.prototype, 'setItem')
+        await user.type(inputUsername, " ");
+        await user.type(inputPassword, " ");
         await user.click(button);
-        expect(navigate).toHaveBeenCalledExactlyOnceWith("/home");
+        expect(navigate).toHaveBeenCalledExactlyOnceWith("/");
+        expect(localStorageSpy).toHaveBeenCalledExactlyOnceWith('token', 'token');
     });
 });

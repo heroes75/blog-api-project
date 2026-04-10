@@ -12,7 +12,8 @@ async function loginController(req, res) {
     })
     if(!user) {
         return res.status(401).json({
-            message: 'incorrect username'
+            message: 'incorrect username',
+            statusCode: 401,
         })
     }
 
@@ -20,10 +21,10 @@ async function loginController(req, res) {
 
     if (!compare) {
         return res.status(401).json({
-            message: 'incorrect password'
+            message: 'incorrect password',
+            statusCode: 401,
         })
     }
-    console.log('process.env.SECRET:', process.env.SECRET)
     const opts = {}
     opts.expiresIn = '7d'
     const token = jwt.sign({user}, process.env.SECRET, opts)

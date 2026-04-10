@@ -23,12 +23,12 @@ export default function Login() {
             },
             body: JSON.stringify({username, password})
         }).then(res => res.json()).then(res => {
-            console.log('res:', res)
             if (res.statusCode >= 400) {
                 return setMessageError(res.message)
-            }  
+            }
+            localStorage.setItem('token', res.token)
+            navigate("/")
         })
-        navigate('/home')
     }
     return (
         <>

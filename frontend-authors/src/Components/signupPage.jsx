@@ -28,7 +28,7 @@ export default function SignupForm() {
         inputUsername.current.reportValidity()
         inputPassword.current.reportValidity()
         inputConfirmPassword.current.reportValidity()
-        console.log(username, password, confirmPassword)
+        // console.log(username, password, confirmPassword)
         if(username === '') {
             inputUsername.current.setCustomValidity('Please enter an username')
             setErrorMessages(prevState => prevState.concat('Please enter an username'))
@@ -77,9 +77,9 @@ export default function SignupForm() {
         } else {
             inputConfirmPassword.current.setCustomValidity('')
         }
-        console.log('!form.current.checkValidity():', !form.current.checkValidity())
+        // console.log('!form.current.checkValidity():', !form.current.checkValidity())
         if (!form.current.checkValidity()) {
-            console.log('return:')
+            // console.log('return:')
             return
         }
 
@@ -91,16 +91,16 @@ export default function SignupForm() {
                 "Content-type": "application/json"
             }
         }).then(res => {
-            console.log('res: (1)', res)
+            // console.log('res: (1)', res)
             return res.json()
         }).then(res => {
-            console.log('res.statusCode:', res.statusCode)
+            // console.log('res.statusCode:', res.statusCode)
             if (res.statusCode >= 400) {
-                console.log('res: (2)', res)
+                // console.log('res: (2)', res)
                 return setErrorMessages(res.message)
             }
             navigate('/login')
-            console.log("res: (3)", res)
+            // console.log("res: (3)", res)
         })
         .catch(err => {
             console.error(err)

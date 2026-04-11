@@ -1,5 +1,6 @@
 import App from './App'
 import Login from './Components/loginPage'
+import Post from './Components/postPage'
 import SignupForm from './Components/signupPage'
 
 const routes = [
@@ -14,6 +15,10 @@ const routes = [
     {
         path: '/login',
         element: <Login />
+    },
+    {
+        path: '/posts/:postId',
+        element: <Post />
     }
 ]
 

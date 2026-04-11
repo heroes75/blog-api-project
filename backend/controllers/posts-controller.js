@@ -107,6 +107,8 @@ async function getPost(req, res) {
             comments: true
         }
     })
+    console.log('post:', post)
+    console.log('req.user:', req.user)
     if (!post) {
         return res.status(404).json({
             message: "no post find in the system"

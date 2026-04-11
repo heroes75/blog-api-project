@@ -5,7 +5,7 @@ import App from '../App'
 describe('testing test', () => {
     test('render App', async () => {
         render(<App />)
-        screen.debug()
+        // screen.debug()
         const button = await screen.findByText('create third blog')
         expect(button).toBeInTheDocument()
     })

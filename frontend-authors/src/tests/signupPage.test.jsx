@@ -53,7 +53,6 @@ describe("should be have an input and label username, an input and label passwor
 
 describe("if user type a wrong input it's should be show the right message error", () => {
     beforeEach(() => {
-        // render(<SignupForm />);
         const router = createMemoryRouter(routes, {
             initialEntries: ["/signup"],
         });
@@ -177,7 +176,7 @@ describe("user can send a http form", async () => {
         await user.type(inputConfirmPassword, "1234567@A");
         await user.click(button);
         await waitFor(() => expect(window.fetch).toHaveBeenCalledOnce());
-        screen.debug();
+        // screen.debug();
     });
     test("if user type the right input with an existing username it's should be throw an error", async () => {
         const router = createMemoryRouter(routes, {
@@ -190,10 +189,6 @@ describe("user can send a http form", async () => {
                     statusCode: 401,
                 }),
             }),
-        );
-        console.log(
-            "window.fetch().then(res => console.log(res))",
-            window.fetch().then((res) => console.log(res)),
         );
         render(<RouterProvider router={router} />);
         const button = screen.getByRole("button");
@@ -213,6 +208,6 @@ describe("user can send a http form", async () => {
                 name: "user with this username already exits",
             }),
         );
-        screen.debug();
+        // screen.debug();
     });
 });

@@ -98,7 +98,7 @@ async function getAllPostOfUser(req,res) {
 
 async function getPost(req, res) {
     const {postId} = req.params;
-
+    const user = req.user
     const post = await prisma.posts.findUnique({
         where: {
             id: postId
@@ -111,18 +111,21 @@ async function getPost(req, res) {
     console.log('req.user:', req.user)
     if (!post) {
         return res.status(404).json({
+            status: 404,
             message: "no post find in the system"
         })
     } else if(!post.published) {
-        if (req.user?.id === post.authorId) {
+        if (user?.id === post.authorId) {
             return res.status(200).json({post})
         }
         return res.status(403).json({
+            status: 403,
             message: 'access denied',
         })
     }
     res.status(200).json({
-        post
+        post,
+        userId: user?.id
     })
 }
 

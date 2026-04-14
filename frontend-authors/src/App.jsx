@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import { Link } from "react-router";
 
 function App() {
     const [error, setError] = useState(null);
@@ -43,6 +44,7 @@ function App() {
                                 <h3>{post.title}</h3>
                                 <p>{post.text}</p>
                                 <p>posted by: {post.createdAt}</p>
+                                <Link to={`posts/${post.id}`}>see more...</Link>
                             </div>
                         );
                     })}

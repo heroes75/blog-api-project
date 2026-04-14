@@ -24,7 +24,7 @@ async function postComment(req, res) {
             postsId: post.id
         }
     })
-
+console.log('comment:', comment)
     res.status(200).json({
         comment
     })
@@ -77,6 +77,7 @@ async function deleteComment(req, res) {
         }
     })
 
+    console.log('post:', post)
     if (!post || !comment) {
         res.status(404).json({
             message: `no ${!post ? "post" : "comment"} found in the system`

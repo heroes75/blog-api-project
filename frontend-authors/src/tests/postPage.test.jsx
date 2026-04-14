@@ -14,6 +14,7 @@ describe("should be have a heading(h1) for the title, p for author, date and tex
             createdAt: "2012-12-12T11:11:11.816Z",
             published: true,
             updatedAt: "2012-12-12T11:11:11.816Z",
+            comments: []
         };
         window.fetch = vi.fn(() => Promise.resolve({ json: () => ({post: obj}) }));
         const router = createMemoryRouter(routes, {

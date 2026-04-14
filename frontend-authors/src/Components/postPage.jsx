@@ -132,7 +132,7 @@ export default function Post() {
     return (
         <>
             <h1>{post.title}</h1>
-            <p>{post.authorId}</p>
+            <p>{post.author.username}</p>
             <p>
                 Created at:{" "}
                 {new Date(post.createdAt).toUTCString().replace(/:\d+ GMT/, "")}
@@ -168,7 +168,7 @@ export default function Post() {
                             </form>
                         ) : (
                             <div>
-                                <p>{comment.authorId}</p>
+                                <p>{comment.author.username}</p>
                                 <p>{comment.text}</p>
                                 <span>
                                     create the:{" "}

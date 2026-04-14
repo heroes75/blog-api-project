@@ -103,8 +103,38 @@ async function getPost(req, res) {
         where: {
             id: postId
         },
+        // select: {
+        //     author: {
+        //         select: {
+        //             username: true
+        //         }
+        //     },
+        //     comments: {
+        //         select: {
+        //             author: {
+        //                 select: {
+        //                     username: true
+        //                 }
+        //             }
+        //         }
+        //     }
+        // },
         include: {
-            comments: true
+            author: {
+                select: {
+                    username: true
+                }
+            },
+            comments: {
+                include: {
+                    author: {
+                        select: {
+                            username: true
+                        }
+                        
+                    }
+                }
+            }
         }
     })
     console.log('post:', post)

@@ -14,6 +14,9 @@ describe("should be have a heading(h1) for the title, p for author, date and tex
             createdAt: "2012-12-12T11:11:11.816Z",
             published: true,
             updatedAt: "2012-12-12T11:11:11.816Z",
+            author: {
+                username: 'irie'
+            },
             comments: []
         };
         window.fetch = vi.fn(() => Promise.resolve({ json: () => ({post: obj}) }));
@@ -23,7 +26,7 @@ describe("should be have a heading(h1) for the title, p for author, date and tex
         render(<RouterProvider router={router} />);
         const h1 = await screen.findByRole("heading", { name: "title" });
         const text = await screen.findByText("text");
-        const authorName = await screen.findByText("z1");
+        const authorName = await screen.findByText("irie");
         await waitFor(() => {
             expect(h1).toBeInTheDocument();
             expect(text).toBeInTheDocument();

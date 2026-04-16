@@ -37,18 +37,20 @@ function App() {
     return (
         <>
             {!isLoading ? (
-                <ul>
-                    {posts.map((post) => {
-                        return (
-                            <div key={post.id}>
-                                <h3>{post.title}</h3>
-                                <p>{post.text}</p>
-                                <p>posted by: {post.createdAt}</p>
-                                <Link to={`posts/${post.id}`}>see more...</Link>
-                            </div>
-                        );
-                    })}
-                </ul>
+                <div>
+                    <ul>
+                        {posts.map((post) => {
+                            return (
+                                <div key={post.id}>
+                                    <h3>{post.title}</h3>
+                                    <p>{post.text}</p>
+                                    <p>posted by: {post.createdAt}</p>
+                                    <Link to={`posts/${post.id}`}>see more...</Link>
+                                </div>
+                            );
+                        })}
+                    </ul>
+                </div>
             ) : (
                 <p>isLoading...</p>
             )}

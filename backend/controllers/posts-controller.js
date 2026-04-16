@@ -9,6 +9,9 @@ async function getAllPosts(req, res) {
 async function createPost(req, res) {
     const { text, title } = req.body;
     const user = req.user;
+    if (!user) {
+        return res.status(401)
+    }
     const post = await prisma.posts.create({
         data: {
             authorId: user.id,
@@ -25,6 +28,9 @@ async function updatePost(req, res) {
     const { postId } = req.params;
     const { text, title } = req.body;
     const user = req.user;
+    if (!user) {
+        return res.status(401)
+    }
     const post = await prisma.posts.findUnique({
         where: {
             id: postId
@@ -58,6 +64,9 @@ async function updatePost(req, res) {
 async function deletePost(req, res) {
     const {postId} = req.params
     const user = req.user
+    if (!user) {
+        return res.status(401)
+    }
     const post = await prisma.posts.findUnique({
         where: {
             id: postId
@@ -85,9 +94,19 @@ async function deletePost(req, res) {
 }
 
 async function getAllPostOfUser(req,res) {
+    if (!req.user) {
+        return res.status(401)
+    }
     const posts = await prisma.posts.findMany({
         where: {
             authorId: req.user.id
+        },
+        include: {
+            author: {
+                select: {
+                    username: true
+                }
+            }
         }
     })
 
@@ -103,22 +122,6 @@ async function getPost(req, res) {
         where: {
             id: postId
         },
-        // select: {
-        //     author: {
-        //         select: {
-        //             username: true
-        //         }
-        //     },
-        //     comments: {
-        //         select: {
-        //             author: {
-        //                 select: {
-        //                     username: true
-        //                 }
-        //             }
-        //         }
-        //     }
-        // },
         include: {
             author: {
                 select: {

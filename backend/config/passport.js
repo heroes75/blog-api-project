@@ -7,7 +7,7 @@ const extractJwt = require('passport-jwt').ExtractJwt
 let opts = {}
 
 opts.jwtFromRequest = extractJwt.fromAuthHeaderAsBearerToken()
-opts.secretOrKey = process.env.SECRET
+opts.secretOrKey = process.env.SECRET_READER
 
 const strategy = new JwtStrategy(opts, async (just_payload, done) => {
     const user = await  prisma.users.findUnique({

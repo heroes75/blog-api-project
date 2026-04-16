@@ -16,6 +16,7 @@ model Users {
     id       String     @id @default(uuid())
     username String     @unique @db.VarChar(255)
     password String
+    role     Role       @default(READER)
     posts    Posts[]
     comments Comments[]
 }
@@ -41,4 +42,10 @@ model Comments {
     authorId  String
     posts     Posts    @relation(fields: [postsId], references: [id])
     postsId   String
+}
+
+
+enum Role {
+    READER
+    AUTHOR
 }

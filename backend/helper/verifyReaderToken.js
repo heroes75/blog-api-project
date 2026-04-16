@@ -1,15 +1,16 @@
 const jwt = require('jsonwebtoken')
-function verifyToken(req, res, next) {
+function verifyReaderToken(req, res, next) {
     const bearer = req.headers['authorization']
     // console.log('bearer:', bearer)
 
     if (typeof bearer === 'undefined') {
-         req.user = undefined
+        req.user = undefined
     } else {
         const bearerToken = bearer.split(' ')
         const token = bearerToken[1]
         // console.log('token:', token)
-        jwt.verify(token, process.env.SECRET, function(err, authData) {
+        console.log('process.env.SECRET_READER,:', process.env.SECRET_READER,)
+        jwt.verify(token, 'process.env.SECRET_READER', function(err, authData) {
             // console.log('authData:', authData)
             if (err) {
                 console.error(err)
@@ -21,4 +22,4 @@ function verifyToken(req, res, next) {
     next()
 }
 
-module.exports = verifyToken
+module.exports = verifyReaderToken

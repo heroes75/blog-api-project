@@ -38,12 +38,13 @@ async function signup(req, res) {
             statusCode: 401,
         });
     }
-    const { username, password } = matchedData(req);
+    const { username, password, role } = matchedData(req);
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await prisma.users.create({
         data: {
             username,
             password: hashedPassword,
+            role,
         },
     });
     res.status(200).json({

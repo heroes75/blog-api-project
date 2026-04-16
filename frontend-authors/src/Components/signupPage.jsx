@@ -86,7 +86,7 @@ export default function SignupForm() {
         fetch('http://localhost:8000/signup', {
             method: 'POST',
             type: 'cors',
-            body: JSON.stringify({username: username, password: password}),
+            body: JSON.stringify({username: username, password: password, role: 'READER'}),
             headers: {
                 "Content-type": "application/json"
             }

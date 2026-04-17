@@ -16,11 +16,9 @@ const validateUsername = body("username")
                     },
                 },
             });
-            console.log('user:', user)
             if (user) {
                 throw new Error("");
             }
-        // console.log('user:', user)
     })
     .withMessage("user with this username already exits");
 
@@ -45,7 +43,7 @@ const validatePassword = body("password")
 async function signup(req, res) {
     // console.log('req:', req)
     const errors = validationResult(req);
-    console.log("errors:", errors);
+    // console.log("errors:", errors);
     if (!errors.isEmpty()) {
         return res.status(401).json({
             message: errors.errors.map((error) => error.msg),
@@ -53,7 +51,6 @@ async function signup(req, res) {
         });
     }
     const { username, password, role } = matchedData(req);
-    console.log('rea.body.role:', req.body)
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await prisma.users.create({
         data: {

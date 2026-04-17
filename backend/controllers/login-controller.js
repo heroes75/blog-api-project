@@ -7,7 +7,10 @@ async function loginController(req, res) {
     const {username, password, role} = req.body
     const user = await prisma.users.findUnique({
         where: {
-            username
+            username_role: {
+                username,
+                role
+            }
         }
     })
     if(!user) {
@@ -27,7 +30,7 @@ async function loginController(req, res) {
     }
     const opts = {}
     opts.expiresIn = '7d'
-    const token = jwt.sign({user}, process.env.SECRET, opts)
+    const token = jwt.sign({user}, user.role === 'READER' ? process.env.SECRET_READER : process.env.SECRET_AUTHOR, opts)
     res.status(200).json({
         user,
         token

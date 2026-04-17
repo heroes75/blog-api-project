@@ -1,16 +1,18 @@
 import { useState } from "react"
+import { useNavigate } from "react-router"
 
 export default function LoginPage() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-    const [msgError, setMsgError] = useState([])
+    const [msgError, setMsgError] = useState('')
+    const navigate = useNavigate()
 
     function handleSubmit(e) {
         e.preventDefault()
         fetch('http://localhost:8000/login', {
             method: 'POST',
             type: 'cors',
-            header: {
+            headers: {
                 'content-type': 'application/json'
             },
             body: JSON.stringify({username, password, role: 'AUTHOR'})
@@ -23,14 +25,15 @@ export default function LoginPage() {
             if(res.statusCode === 401) {
                 return setMsgError(res.message)
             }
+            localStorage.setItem('token', res.token)
+            navigate('/')
         })
     }
 
     return(
         <>
             <ul>
-                {msgError.map(error => <li key={error}>{error}</li>)}
-                {/* <li>invalid username</li> */}
+                {msgError && <li>{msgError}</li>}
             </ul>
             <form role="form" action="">
                 <label htmlFor="username">Enter your username:</label>

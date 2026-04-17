@@ -21,7 +21,7 @@ export default function Login() {
             headers: {
                 'content-type': 'application/json'
             },
-            body: JSON.stringify({username, password})
+            body: JSON.stringify({username, password, role: 'READER'})
         }).then(res => res.json()).then(res => {
             if (res.statusCode >= 400) {
                 return setMessageError(res.message)

@@ -14,11 +14,12 @@ datasource db {
 
 model Users {
     id       String     @id @default(uuid())
-    username String     @unique @db.VarChar(255)
+    username String     @db.VarChar(255)
     password String
     role     Role       @default(READER)
     posts    Posts[]
     comments Comments[]
+    @@unique([username, role])
 }
 
 model Posts {

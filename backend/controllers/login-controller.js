@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs')
 
 
 async function loginController(req, res) {
-    const {username, password} = req.body
+    const {username, password, role} = req.body
     const user = await prisma.users.findUnique({
         where: {
             username

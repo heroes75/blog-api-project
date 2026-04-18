@@ -10,7 +10,8 @@ function verifyAuthorToken(req, res, next) {
         const token = bearerToken[1]
         // console.log('token:', token)
         jwt.verify(token, process.env.SECRET_AUTHOR, function(err, authData) {
-            // console.log('authData:', authData)
+            console.log('process.env.SECRET_AUTHOR:', process.env.SECRET_AUTHOR)
+            console.log('authData:', authData)
             if (err) {
                 console.error(err)
             } else {

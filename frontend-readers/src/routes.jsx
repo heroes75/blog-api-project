@@ -1,4 +1,5 @@
 import App from "./App";
+import CreatePost from "./Components/CreatePost";
 import LoginPage from "./LoginPage";
 import SignupPage from "./SignupPAge";
 
@@ -14,6 +15,10 @@ const routes = [
     {
         element: <LoginPage/>,
         path: '/login',
+    },
+    {
+        element: <CreatePost/>,
+        path: '/posts'
     }
 ]
 

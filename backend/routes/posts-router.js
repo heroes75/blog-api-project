@@ -13,7 +13,7 @@ const postsRouter = Router()
 
 postsRouter.get('/', passport.authenticate('jwt', {session: false}), getAllPosts)
 postsRouter.post('/', verifyAuthorToken, createPost)
-postsRouter.get('/dashboard', passport.authenticate('jwt', {session: false}), getAllPostOfUser)
+postsRouter.get('/dashboard', verifyAuthorToken, getAllPostOfUser)
 postsRouter.get('/:postId', verifyReaderToken, getPost)
 postsRouter.post('/:postId/comments', passport.authenticate('jwt', {session: false}), postComment)
 postsRouter.put('/:postId', verifyAuthorToken, updatePost)

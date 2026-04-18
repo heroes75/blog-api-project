@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import { Link, useNavigate } from "react-router";
 
 function App() {
     const [posts, setPosts] = useState([]);
+    const [user, setUser] = useState(null)
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
-
+    const navigate = useNavigate()
     useEffect(() => {
         fetch("http://localhost:8000/posts/dashboard", {
             method: "GET",
@@ -18,7 +20,10 @@ function App() {
                 if (res.status >= 400) throw new Error(res.statusText);
                 return res.json();
             })
-            .then((res) => setPosts(res.posts))
+            .then((res) => {
+                setPosts(res.posts);
+                setUser(res.user)
+            })
             .catch((err) => setError(err))
             .finally(() => setLoading(false));
     },[]);
@@ -28,7 +33,9 @@ function App() {
 
     return (
         <>
-            {posts.map((post) => {
+            {user && <h1>{`Welcome ${user.username}`}</h1>}
+            <h1>POST</h1>
+            { posts.length !== 0 ? posts.map((post) => {
                 return (
                     <div key={post.id}>
                         <p>{post.title}</p>
@@ -39,8 +46,10 @@ function App() {
                         <button>Delete</button>
                     </div>
                 );
-            })}
-            
+            }) :
+            <h2>No posts added yet...</h2>
+        }
+            <Link to='/posts'>Create Post</Link>
         </>
     );
 }

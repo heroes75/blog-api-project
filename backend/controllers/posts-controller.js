@@ -94,12 +94,13 @@ async function deletePost(req, res) {
 }
 
 async function getAllPostOfUser(req,res) {
-    if (!req.user) {
+    const user = req.user
+    if (!user) {
         return res.status(401)
     }
     const posts = await prisma.posts.findMany({
         where: {
-            authorId: req.user.id
+            authorId: user.id
         },
         include: {
             author: {
@@ -111,7 +112,8 @@ async function getAllPostOfUser(req,res) {
     })
 
     res.status(200).json({
-        posts
+        posts,
+        user: {username: user.username, id: user.id}
     })
 }
 

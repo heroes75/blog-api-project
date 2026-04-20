@@ -1,16 +1,41 @@
 import { Editor } from "@tinymce/tinymce-react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 export default function CreatePost() {
     const editorRef = useRef(null);
-    const log = () => {
-        if (editorRef.current) {
-            console.log(editorRef.current.getContent());
-        }
+    const [title, setTitle] = useState('') 
+    const [error, setError] = useState(null) 
+    const [successMessage, setSuccessMessage] = useState('')
+    const handleSubmit = () => {
+        fetch('http://localhost:8000/posts/', {
+            method: 'POST',
+            type: 'cors',
+            headers: {
+                'content-type': 'application/json',
+                authorization: localStorage.getItem('token') ? 'Bearer ' + localStorage.getItem('token') : 'Bearer noToken'
+            },
+            body: JSON.stringify({title, text: editorRef.current.getContent()})
+        }).then(res => {
+            console.log('res.status:', res)
+            if(res.status >= 400) {
+                throw new Error(res.statusText)
+            }
+            return res.json()
+        }).then(res => {
+            setSuccessMessage('your is created at url http://localhost:5174/posts/' + res.post.id)
+        }).catch(err => setError(err))
     };
 
+
+    if (error) return <h1>{error.message}</h1>
+
     return (
-        <>
+        <> 
+            <div>
+                <p>{successMessage}</p>
+                <label htmlFor="title">Enter the title</label>
+                <input onChange={(e) => setTitle(e.target.value)} type="text" value={title} id="title" name='title' />
+            </div>
             <div data-testid="create-post">
                 <Editor
                     data-testid="create-post"
@@ -58,7 +83,7 @@ export default function CreatePost() {
                     }}
                 />
             </div>
-            <button onClick={log}>Log editor content</button>
+            <button onClick={handleSubmit}>Log editor content</button>
         </>
     );
 }

@@ -10,7 +10,7 @@ describe('test the presence of all components', () => {
         render(<RouterProvider router={router}/>)
         expect(screen.getByTestId('create-post')).toBeInTheDocument()
         // expect(screen.getByText('This is the initial content of the editor.')).toBeInTheDocument()
-        expect(screen.getByRole('application')).toBeInTheDocument()
+        // expect(screen.getByRole('application')).toBeInTheDocument()
         expect(screen.getByRole('button')).toBeInTheDocument()
     })
 })

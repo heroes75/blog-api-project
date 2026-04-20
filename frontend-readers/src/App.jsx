@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 
 function App() {
     const [posts, setPosts] = useState([]);
     const [user, setUser] = useState(null)
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
     useEffect(() => {
         fetch("http://localhost:8000/posts/dashboard", {
             method: "GET",
@@ -28,6 +28,18 @@ function App() {
             .finally(() => setLoading(false));
     },[]);
 
+    function handleDelete(id) {
+        confirm('Are you shure ?')
+        setPosts(posts.filter(post => post.id !== id))
+        fetch('http://localhost:8000/posts/' + id, {
+            method: 'DELETE',
+            type: 'cors',
+            headers: {
+                authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        }).catch(err => setError(err))
+    }
+
     if (loading) return <h1>Loading...</h1>;
     if (error) return <h1>{error.message}</h1>;
 
@@ -43,7 +55,7 @@ function App() {
                         <p>{post.text}</p>
                         <button>{post.published ? 'Published' : 'Unpublished'}</button>
                         <button>Edit</button>
-                        <button>Delete</button>
+                        <button onClick={() => handleDelete(post.id)}>Delete</button>
                     </div>
                 );
             }) :

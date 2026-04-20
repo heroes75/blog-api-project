@@ -25,12 +25,12 @@ async function createPost(req, res) {
 }
 
 async function updatePost(req, res) {
-    const { postId } = req.params;
-    const { text, title } = req.body;
     const user = req.user;
     if (!user) {
         return res.status(401).json({message: 'not authenticated'})
     }
+    const { postId } = req.params;
+    const { text, title, published } = req.body;
     const post = await prisma.posts.findUnique({
         where: {
             id: postId
@@ -53,6 +53,7 @@ async function updatePost(req, res) {
         data: {
             text,
             title,
+            published,
         },
     });
     
@@ -164,6 +165,14 @@ async function getPost(req, res) {
     })
 }
 
+async function getCreatePost(req, res) {
+    const user = req.user
+    if(!user) {
+        return res.status(401).json({message: ``})
+    }
+    res.status(200).json()
+}
+
 module.exports = {
     getAllPosts,
     createPost,
@@ -171,4 +180,5 @@ module.exports = {
     deletePost,
     getAllPostOfUser,
     getPost,
+    getCreatePost,
 };

@@ -1,11 +1,30 @@
 import { Editor } from "@tinymce/tinymce-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router";
 
 export default function CreatePost() {
     const editorRef = useRef(null);
     const [title, setTitle] = useState('') 
     const [error, setError] = useState(null) 
     const [successMessage, setSuccessMessage] = useState('')
+    const navigate = useNavigate()
+
+
+    useEffect(() => {
+        fetch('http://localhost:8000/posts/authors', {
+            method: 'GET',
+            type: 'cors',
+            headers: {
+                authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        }).then(res => {
+            if (res.status === 401) {
+                navigate('/login')
+            }
+        }).catch(error => setError(error))
+    }, [])
+
+
     const handleSubmit = () => {
         fetch('http://localhost:8000/posts/', {
             method: 'POST',

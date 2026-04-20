@@ -1,7 +1,7 @@
 require('../config/passport')
 const {Router} = require('express')
 const passport = require('passport')
-const { getAllPosts, createPost, updatePost, deletePost, getAllPostOfUser, getPost } = require('../controllers/posts-controller')
+const { getAllPosts, createPost, updatePost, deletePost, getAllPostOfUser, getPost, getCreatePost } = require('../controllers/posts-controller')
 const { postComment, updateComment, deleteComment } = require('../controllers/comments-controller')
 // verifyReaderToken verify user comme from frontend for see posts and read comment
 const verifyReaderToken  = require('../helper/verifyReaderToken')
@@ -13,6 +13,7 @@ const postsRouter = Router()
 
 postsRouter.get('/', passport.authenticate('jwt', {session: false}), getAllPosts)
 postsRouter.post('/', verifyAuthorToken, createPost)
+postsRouter.get('/authors', verifyAuthorToken, getCreatePost)
 postsRouter.get('/dashboard', verifyAuthorToken, getAllPostOfUser)
 postsRouter.get('/:postId', verifyReaderToken, getPost)
 postsRouter.post('/:postId/comments', passport.authenticate('jwt', {session: false}), postComment)

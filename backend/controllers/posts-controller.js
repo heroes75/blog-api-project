@@ -172,6 +172,30 @@ async function getCreatePost(req, res) {
     res.status(200).json()
 }
 
+async function getUpdatePostPage(req, res) {
+    const user = req.user
+    if (!user) {
+        return res.status(401).json({message: 'not authenticated'})
+    }
+    const { postId } = req.params;
+    const post = await prisma.posts.findUnique({
+        where: {
+            id: postId,
+        }
+    })
+    if (!post) {
+        return res.status(404).json({
+            message: 'post not found in the system'
+        })
+    }
+    if (post.authorId !== user.id) {
+        return res.status(403).json({
+            message: "forbidden update"
+        })
+    }
+    res.status(200).json({post})
+}
+
 module.exports = {
     getAllPosts,
     createPost,
@@ -180,4 +204,5 @@ module.exports = {
     getAllPostOfUser,
     getPost,
     getCreatePost,
+    getUpdatePostPage,
 };

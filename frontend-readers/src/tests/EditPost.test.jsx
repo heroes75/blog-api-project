@@ -1,17 +1,43 @@
 import { createMemoryRouter, RouterProvider } from "react-router";
-import { beforeEach, describe, test } from "vitest";
+import { beforeEach, describe, expect, test, vi } from "vitest";
 import routes from "../routes";
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import { Editor } from "@tinymce/tinymce-react";
 
+// const editor = vi.fn()
 
+vi.mock(import("@tinymce/tinymce-react"), async (importOriginal) => {
+    const mod = await importOriginal();
+    return {
+        ...mod,
+        Editor: vi.fn(),
+    };
+});
 
+const post = {
+    id: "cmnmic8t70000m4udadr71174",
+    title: "third blog",
+    text: "create third blog",
+    createdAt: "2026-04-06T01:24:24.091Z",
+    updatedAt: "2026-04-06T01:24:24.093Z",
+    published: true,
+    authorId: "389ea3f4-ab77-4994-99c7-2c6fd4fe3150",
+    author: { username: "johndoe" },
+};
 beforeEach(() => {
-    const router = createMemoryRouter(routes)
-    render(<RouterProvider router={router}/>)
-})
+    window.fetch = vi.fn(() => Promise.resolve({json: () => ({post})}));
+    const router = createMemoryRouter(routes, {
+        initialEntries: ["/posts/" + post.id],
+    });
+    render(<RouterProvider router={router} />);
+});
 
-describe('test the presence of components', () => {
-    test('test if the editor and the input title are present', () => {
-        
-    })
-})
+describe("test the presence of components", () => {
+    test("test if the editor and the input title are present", async () => {
+        const input = await screen.findByRole("textbox", { name: "Title:" });
+        const button = await screen.findByRole("button", { name: "Submit" });
+        expect(input).toBeInTheDocument();
+        expect(button).toBeInTheDocument();
+        expect(Editor).toHaveBeenCalled();
+    });
+});

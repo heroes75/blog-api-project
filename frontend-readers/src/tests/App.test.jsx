@@ -5,12 +5,12 @@ import { createMemoryRouter, RouterProvider } from "react-router";
 import routes from "../routes";
 import userEvent from "@testing-library/user-event";
 
-// const deletePost = vi.fn(() => {console.log('AAAGGGGGGGG')});
-vi.mock(import('../App.jsx'), async (importOriginal) => {
+const navigate = vi.fn(() => {console.log('AGRH')});
+vi.mock(import('react-router'), async (importOriginal) => {
     const mod = await importOriginal()
     return {
         ...mod,
-        handleDelete: vi.fn(() => {console.log('AAAGGGGGGGG')})
+        useNavigate: () => navigate
     }
 })
 describe("App", () => {
@@ -44,8 +44,6 @@ describe("App", () => {
         const authorsName = await screen.findAllByText(arr[1].author.username)
         const deleteButtons = await screen.findAllByRole('button', {name: 'Delete'})
         const editButtons = await screen.findAllByRole('button', {name: 'Edit'})
-        // screen.debug();
-
         expect(await screen.findByText(arr[0].title)).toBeInTheDocument()
         expect(await screen.findByText(arr[1].title)).toBeInTheDocument()
         expect(await screen.findByText(arr[0].text)).toBeInTheDocument()
@@ -61,9 +59,8 @@ describe("App", () => {
     });
 });
 
-describe('handle delete posts', () => {
-    test('should be capable to delete post', async () => {
-        const arr = [
+describe('test the buttons', () => {
+    const arr = [
             {
                 id: "cmnmic8t70000m4udadr71174",
                 title: "third blog",
@@ -84,17 +81,32 @@ describe('handle delete posts', () => {
                 authorId: "389ea3f4-ab77-4994-99c7-2c6fd4fe3150",
                 author: { username: "johndoe" },
             },
-        ];
-        window.fetch = vi.fn(() => Promise.resolve({json: () => ({posts: arr})}))
+    ];
+    window.fetch = vi.fn(() => Promise.resolve({json: () => ({posts: arr})}))
+    test('should be capable to delete post', async () => {
         const router = createMemoryRouter(routes, {initialEntries: ['/']})
         render(<RouterProvider router={router}/>);
         const user = userEvent.setup()
-        screen.debug()
         const buttonsDelete = await screen.findAllByRole('button', {name: 'Delete'})
         expect((await screen.findAllByRole('button', {name: 'Delete'})).length).toEqual(2)
         await user.click(buttonsDelete[1])
         expect((await screen.findAllByRole('button', {name: 'Delete'})).length).toEqual(1)
-        expect(deletePost).toHaveBeenCalledOnce()
-        screen.debug()
+    });
+    test('click on Edit button should call navigate function', async () => {
+        const router = createMemoryRouter(routes, {initialEntries: ['/']})
+        render(<RouterProvider router={router}/>);
+        const user = userEvent.setup()
+        const buttonsEdit = await screen.findAllByRole('button', {name: 'Edit'})
+        await user.click(buttonsEdit[0])
+        expect(navigate).toHaveBeenCalledExactlyOnceWith('/posts/' + arr[0].id)
+    })
+    test('click on published function should be change it in unpublished', async () => {
+        const router = createMemoryRouter(routes, {initialEntries: ['/']})
+        render(<RouterProvider router={router}/>);
+        const user = userEvent.setup()
+        const buttonsPublish = await screen.findAllByTestId('publish')
+        expect(buttonsPublish[0].textContent).toEqual('Published')
+        await user.click(buttonsPublish[0])
+        expect(buttonsPublish[0].textContent).toEqual('Unpublished')
     })
 })

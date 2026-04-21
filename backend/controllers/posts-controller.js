@@ -56,7 +56,6 @@ async function updatePost(req, res) {
             published,
         },
     });
-    
     res.status(200).json({
         updatedPost
     });

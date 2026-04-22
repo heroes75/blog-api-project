@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import { Link, useNavigate } from "react-router";
+import Header from "./Components/Header";
 
 function App() {
     const [posts, setPosts] = useState([]);
@@ -80,6 +81,7 @@ function App() {
 
     return (
         <>
+            <Header isConnected={!!user} />
             {user && <h1>{`Welcome ${user.username}`}</h1>}
             <h1>POST</h1>
             { posts.length !== 0 ? posts.map((post) => {

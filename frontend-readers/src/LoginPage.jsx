@@ -1,11 +1,27 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router"
+import Header from "./Components/Header"
 
 export default function LoginPage() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [msgError, setMsgError] = useState('')
     const navigate = useNavigate()
+
+
+    useEffect(() => {
+        fetch('http://localhost:8000/login', {
+            method: 'GET',
+            type: 'cors',
+            headers: {
+                authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        }).then(res => {
+            if (res.status === 302) {
+                return navigate('/')
+            }
+        })
+    })
 
     function handleSubmit(e) {
         e.preventDefault()
@@ -32,6 +48,7 @@ export default function LoginPage() {
 
     return(
         <>
+            <Header isConnected={false} />
             <ul>
                 {msgError && <li>{msgError}</li>}
             </ul>

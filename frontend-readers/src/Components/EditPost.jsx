@@ -1,6 +1,7 @@
 import { Editor } from "@tinymce/tinymce-react";
 import { useEffect, useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router";
+import Header from "./Header";
 
 export default function EditPost() {
     const { postId } = useParams();
@@ -62,6 +63,7 @@ export default function EditPost() {
 
     return (
         <>
+            <Header isConnected={true}/>
             <label htmlFor="title">Title:</label>
             <input value={title} onChange={(e) => setTitle(e.target.value)} type="text" name="title" id="title" />
             <Editor

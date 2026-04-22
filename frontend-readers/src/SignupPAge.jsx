@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { useNavigate } from "react-router"
+import Header from "./Components/Header"
 
 export default function SignupPage() {
     const [username, setUsername] = useState('')
@@ -50,6 +51,7 @@ export default function SignupPage() {
 
     return (
         <>
+            <Header isConnected={false} />
             <ul aria-label="list">
                 {msgError.map(err => <li key={err}>{err}</li>)}
                 {/* <li>your username must be only alphanumeric</li>

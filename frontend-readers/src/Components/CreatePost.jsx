@@ -1,6 +1,7 @@
 import { Editor } from "@tinymce/tinymce-react";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
+import Header from "./Header";
 
 export default function CreatePost() {
     const editorRef = useRef(null);
@@ -49,7 +50,8 @@ export default function CreatePost() {
     if (error) return <h1>{error.message}</h1>
 
     return (
-        <> 
+        <>
+            <Header isConnected={true}/>
             <div>
                 <p>{successMessage}</p>
                 <label htmlFor="title">Enter the title</label>

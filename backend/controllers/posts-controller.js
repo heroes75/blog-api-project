@@ -193,6 +193,7 @@ async function getUpdatePostPage(req, res) {
             message: "forbidden update"
         })
     }
+    console.log('post:', post)
     res.status(200).json({post})
 }
 

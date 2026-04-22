@@ -1,15 +1,17 @@
 import { Editor } from "@tinymce/tinymce-react";
-import { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router";
+import { useEffect, useState } from "react";
+import { Navigate, useNavigate, useParams } from "react-router";
 
 export default function EditPost() {
-    const editorRef = useRef(null);
     const { postId } = useParams();
     const [title, setTitle] = useState("");
     const [ text, setText ] = useState("");
+    const [error, setError] = useState(null)
+    const [isLoading, setIsLoading] = useState(true)
+    const navigate = useNavigate()
 
     useEffect(() => {
-        fetch("http//:localhost/posts/update/" + postId, {
+        fetch(`http://localhost:8000/posts/update/${postId}`, {
             method: "GET",
             type: "cors",
             headers: {
@@ -26,17 +28,46 @@ export default function EditPost() {
                 console.log('res:', res)
                 setText(res.post.text);
                 setTitle(res.post.title);
-            });
-    });
+            }).catch(err => {
+                console.error(err)
+                setError(err)
+            }).finally(() => setIsLoading(false));
+    }, [postId]);
+
+    function handleSubmit() {
+        fetch('http://localhost:8000/posts/' + postId, {
+            method: 'PUT',
+            type: 'cors',
+            headers: {
+                authorization: `Bearer ${localStorage.getItem('token')}`,
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({text, title})
+        }).then(res => {
+            if (res.status >= 400) {
+                throw new Error(res.statusText)
+            }
+            return res.json()
+        }).then(res => {
+            navigate(`/`)
+            console.log(res.updatedPost)
+        }).catch(err => {
+            setError(err)
+        })
+    }
+
+    if(isLoading) return <h1>Loading...</h1>
+
+    if(error) return <h1>{error.message}</h1>
 
     return (
         <>
             <label htmlFor="title">Title:</label>
             <input value={title} onChange={(e) => setTitle(e.target.value)} type="text" name="title" id="title" />
             <Editor
-                apiKey="your-api-key"
-                onInit={(evt, editor) => (editorRef.current = editor)}
-                initialValue="<p>This is the initial content of the editor.</p>"
+                value={text}
+                onEditorChange={(newValue, editor) => setText(newValue)}
+                apiKey="vxpm9czgqse7es5u276n7lqcwkyrcnnksh6xrach1tqulqh1"
                 init={{
                     height: 500,
                     menubar: false,
@@ -69,7 +100,7 @@ export default function EditPost() {
                         "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
                 }}
             />
-            <button>Submit</button>
+            <button onClick={handleSubmit}>Submit</button>
         </>
     );
 }

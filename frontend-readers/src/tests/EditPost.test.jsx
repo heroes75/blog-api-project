@@ -3,8 +3,17 @@ import { beforeEach, describe, expect, test, vi } from "vitest";
 import routes from "../routes";
 import { render, screen } from "@testing-library/react";
 import { Editor } from "@tinymce/tinymce-react";
+import userEvent from "@testing-library/user-event";
 
-// const editor = vi.fn()
+const navigate = vi.fn()
+
+vi.mock(import('react-router'), async (importOriginal) => {
+    const mod = await importOriginal()
+    return {
+        ...mod,
+        useNavigate: () => navigate
+    }
+})
 
 vi.mock(import("@tinymce/tinymce-react"), async (importOriginal) => {
     const mod = await importOriginal();
@@ -25,7 +34,14 @@ const post = {
     author: { username: "johndoe" },
 };
 beforeEach(() => {
-    window.fetch = vi.fn(() => Promise.resolve({json: () => ({post})}));
+    window.fetch = vi.fn((url) => {
+        if(url === `http://localhost:8000/posts/update/${post.id}`) {
+            return Promise.resolve({json: () => ({post})})
+        } else if(url === 'http://localhost:8000/posts/' + post.id) {
+            return Promise.resolve({json: () => ({post: {...post, text: 'updated text', title: 'updated title'}})})
+        }
+        
+    });
     const router = createMemoryRouter(routes, {
         initialEntries: ["/posts/" + post.id],
     });
@@ -41,3 +57,12 @@ describe("test the presence of components", () => {
         expect(Editor).toHaveBeenCalled();
     });
 });
+
+describe("test update function", () => {
+    test('if user success to update you should redirect to the view page', async () => {
+        const submit = await screen.findByRole('button')
+        const user = userEvent.setup(submit)
+        await user.click(submit)
+        expect(navigate).toHaveBeenCalledExactlyOnceWith(`/`)
+    })
+})

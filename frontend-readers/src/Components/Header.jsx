@@ -1,33 +1,37 @@
 import { Link } from "react-router";
-
+import styles from '../styles/Header.module.css'
 export default function Header({isConnected}) {
     function handleLogout() {
         localStorage.clear()
     }
     return (
         <>
-            <header>
+            <header class={styles.header}>
                 <nav>
-                    <ul>
-                        <li><Link to='/'>Home</Link></li>
-                        {
-                            isConnected ?
-                            (
-                                <li>
-                                    <Link onClick={handleLogout} to='/login'>Logout</Link>
-                                </li>
-                            ) :
-                            (
-                                <>
+                    <ul className={styles.ul}>
+                        <div className="left-side">
+                            <li><Link className={styles.home} to='/'>Home</Link></li>
+                        </div>
+                        <div className="right-side">
+                            {
+                                isConnected ?
+                                (
                                     <li>
-                                        <Link to='/login'>Login</Link>
+                                        <Link className={styles.logout} onClick={handleLogout} to='/login'>Logout</Link>
                                     </li>
-                                    <li>
-                                        <Link to='/signup'>Signup</Link>
-                                    </li>
-                                </>
-                            )
-                        }
+                                ) :
+                                (
+                                    <div className={styles.signupLogin}>
+                                        <li>
+                                            <Link to='/login'>Login</Link>
+                                        </li>
+                                        <li>
+                                            <Link to='/signup'>Signup</Link>
+                                        </li>
+                                    </div>
+                                )
+                            }
+                        </div>
                     </ul>
                 </nav>
             </header>

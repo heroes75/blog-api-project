@@ -1,0 +1,65 @@
+.main {
+  padding: 25px;
+}
+
+.welcome {
+  margin-left: 15px;
+  text-decoration: solid;
+}
+
+.posts {
+  text-decoration: underline;
+}
+
+.postsContainer {
+  display: flex;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+
+.post {
+  padding: 15px 35px 35px 35px;
+  outline: 5px solid white;
+  border-radius: 25px;
+}
+
+.title {
+  text-align: center;
+  font-family: cursive, Arial, Helvetica, sans-serif;
+  font-weight: lighter;
+  font-size: 25px;
+}
+
+.username {
+  color: blue;
+}
+
+.text {
+  text-overflow: ellipsis;
+  width: 240px;
+  white-space: nowrap;
+  overflow: hidden;
+  padding: 2px 5px;
+  background-color: #eee;
+}
+
+.buttonsContainer {
+  display: flex;
+  justify-content: center;
+  gap: 26px;
+}
+
+.buttonsContainer button {
+  padding: 7px 11px;
+  border-radius: 10px;
+}
+
+.link {
+  padding: 7px 11px;
+  border-radius: 20px;
+  border: 2px solid #6B6B6B;
+  margin: 50px auto;
+  display: block;
+  text-align: center;
+}
+

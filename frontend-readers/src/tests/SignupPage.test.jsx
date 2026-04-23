@@ -47,11 +47,11 @@ describe('testing the constraint validation form', () => {
         const user = userEvent.setup()
         await user.click(button)
         const errors = screen.getAllByRole('listitem')
-        expect(errors[0].textContent).toBe(arr[0])
-        expect(errors[1].textContent).toBe(arr[1])
-        expect(errors[2].textContent).toBe(arr[2])
-        expect(errors[3].textContent).toBe(arr[3])
-        expect(errors[4].textContent).toBe(arr[4])
+        expect(errors[3].textContent).toBe(arr[0])
+        expect(errors[4].textContent).toBe(arr[1])
+        expect(errors[5].textContent).toBe(arr[2])
+        expect(errors[6].textContent).toBe(arr[3])
+        expect(errors[7].textContent).toBe(arr[4])
     });
     test('if user signup useNavigate must be called', async () =>{
         window.fetch = vi.fn(() => Promise.resolve({json: () => ({user: {}})}))

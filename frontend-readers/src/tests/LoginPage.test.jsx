@@ -35,7 +35,8 @@ describe('test invalid credential', () => {
         const user =  userEvent.setup()
         const button = screen.getByRole('button')
         await user.click(button)
-        expect(screen.getByRole('listitem').textContent).toEqual('invalid username')
+        const listItems = screen.getAllByRole('listitem')
+        expect(listItems[listItems.length - 1].textContent).toEqual('invalid username')
     })
 })
 

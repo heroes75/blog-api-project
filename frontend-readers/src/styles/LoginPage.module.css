@@ -1,0 +1,51 @@
+.main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 2;
+    flex-direction: column;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    padding: 35px;
+}
+
+.ul {
+    align-self: center;
+}
+.ul li {
+    color: red;
+    list-style: none;
+    align-self: center;
+}
+
+.label {
+    font-size: 2rem;
+    margin: 10px 0;
+}
+
+.input {
+    font-size: 1.7rem;
+    padding: 3px;
+    margin-left: 7px;
+    border-radius: 7px;
+}
+
+.button {
+    padding: 17px 33px;
+    align-self: center;
+    border-radius: 11px;
+    margin: 16px;
+    font-size: 1.5rem;
+    box-shadow: black  3px 5px;
+}
+
+.button:hover {
+    cursor: pointer;
+}
+
+.button:active {
+    box-shadow: black  3px 2px;
+}

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router"
 import Header from "./Components/Header"
+import styles from './styles/LoginPage.module.css'
 
 export default function LoginPage() {
     const [username, setUsername] = useState('')
@@ -49,16 +50,18 @@ export default function LoginPage() {
     return(
         <>
             <Header isConnected={false} />
-            <ul>
-                {msgError && <li>{msgError}</li>}
-            </ul>
-            <form role="form" action="">
-                <label htmlFor="username">Enter your username:</label>
-                <input value={username} onChange={e => setUsername(e.target.value)} type="text" name="username" id="username" placeholder="username" />
-                <label htmlFor="password">Enter your password:</label>
-                <input value={password} onChange={e => setPassword(e.target.value)} type="password" name="password" id="password" placeholder="password" />
-                <button onClick={handleSubmit}>Submit</button>
-            </form>
+            <main className={styles.main}>
+                <ul className={styles.ul}>
+                    {msgError && <li>{msgError}</li>}
+                </ul>
+                <form className={styles.form} role="form" action="">
+                    <label className={styles.label} htmlFor="username">Enter your username:</label>
+                    <input className={styles.input} value={username} onChange={e => setUsername(e.target.value)} type="text" name="username" id="username" placeholder="username" />
+                    <label className={styles.label} htmlFor="password">Enter your password:</label>
+                    <input className={styles.input} value={password} onChange={e => setPassword(e.target.value)} type="password" name="password" id="password" placeholder="password" />
+                    <button className={styles.button} onClick={handleSubmit}>Submit</button>
+                </form>
+            </main>
         </>
     )
 }

@@ -36,9 +36,7 @@ export default function SignupPage() {
             }
             return res.json()
         }).then(res => {
-            // console.log('res:', res)
             if (res.statusCode === 401) {
-                // console.log('res.message:', res.message)
                 return setMsgError(res.message)
             }
             navigate('/login')
@@ -54,11 +52,6 @@ export default function SignupPage() {
             <Header isConnected={false} />
             <ul aria-label="list">
                 {msgError.map(err => <li key={err}>{err}</li>)}
-                {/* <li>your username must be only alphanumeric</li>
-                <li>your password must overflow 8 characters</li>
-                <li>your password contains at least one upper case</li>
-                <li>your password contains at least one number</li>
-                <li>your password contains at least non alphanumeric character</li> */}
             </ul>
             <form  role="form" method="POST">
                 <label htmlFor="username">Enter your username:</label>

@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { useNavigate } from "react-router"
+import Header from "./Header"
 
 export default function Login() {
     const [username, setUsername] = useState('')
@@ -32,6 +33,7 @@ export default function Login() {
     }
     return (
         <>
+        {/* <Header isConnected={false}/> */}
         <ul>
             {messageError && <li>{messageError}</li>}
         </ul>

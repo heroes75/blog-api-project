@@ -30,6 +30,8 @@ async function loginController(req, res) {
     }
     const opts = {}
     opts.expiresIn = '7d'
+    console.log('user.role === \'READER\':', user.role === 'READER')
+    console.log('process.env.SECRET_READER:', process.env.SECRET_READER)
     const token = jwt.sign({user}, user.role === 'READER' ? process.env.SECRET_READER : process.env.SECRET_AUTHOR, opts)
     res.status(200).json({
         user,

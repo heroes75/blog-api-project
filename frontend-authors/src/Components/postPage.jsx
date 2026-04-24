@@ -1,6 +1,9 @@
 import { Fragment, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import styles from '../styles/PostPage.module.css'
+import DOMPurify from 'dompurify';
+import Header from "./Header";
+
 
 export default function Post() {
     const { postId } = useParams();
@@ -132,63 +135,71 @@ export default function Post() {
     if (error) return <h1>{error.message}</h1>;
     return (
         <>
-            <h1>{post.title}</h1>
-            <p>{post.author.username}</p>
-            <p>
-                Created at:{" "}
-                {new Date(post.createdAt).toUTCString().replace(/:\d+ GMT/, "")}
-            </p>
-            {post.createdAt !== post.updatedAt && (
-                <p>
-                    Updated at:{" "}
-                    {new Date(post.updatedAt)
-                        .toUTCString()
-                        .replace(/:\d+ GMT/, "")}
-                </p>
-            )}
-            <p>{post.text}</p>
-            <h2>Comments</h2>
-            {
-                userId &&
-                (
-                    <form>
-                        <label htmlFor="text-send">Enter your comment:</label>
-                        <textarea onChange={handlePost}  value={postInput} name="text" id="text-send" cols="20" rows="5"></textarea>
-                        <button onClick={postComment} type="submit">Submit</button>
-                    </form>
-                )
-            }
-            {comments.map((comment) => {
-                return (
-                    <Fragment key={comment.id}>
-                        {editId === comment.id ? (
-                            <form action="">
-                                <label htmlFor="text-edit">Edit your comment</label>
-                                <textarea id="text-edit" value={editInput || comment.text} onChange={handleEdit} name="text"></textarea>
-                                <button onClick={hideEditing}>Cancel</button> <button onClick={editComment}>Ok</button>
-                            </form>
-                        ) : (
-                            <div>
-                                <p>{comment.author.username}</p>
-                                <p>{comment.text}</p>
-                                <span>
-                                    create the:{" "}
-                                    {comment.createdAt.split("T")[0]}
-                                </span>
-                                {comment.createdAt !== comment.updatedAt && (
-                                    <span>modified</span>
-                                )}
-                                {userId && (
-                                    <div>
-                                        <button onClick={() => showEditing(comment.id)}>Edit</button>
-                                        <button onClick={() => deleteComment(comment.id)}>Delete</button>
-                                    </div>
-                                )}
-                            </div>
-                        )}
-                    </Fragment>
-                );
-            })}
+            <Header isConnected={!!userId}/>
+            <main className={styles.main}>
+                <h1 className={styles.title}>{post.title}</h1>
+                <hr />
+                <div className={styles.infoBlog}>
+                    <p className={styles.username}>{post.author.username}</p>
+                    <p className={styles.createdAt}>
+                        Created at:{" "}
+                        {new Date(post.createdAt).toUTCString().replace(/:\d+ GMT/, "")}
+                    </p>
+                    {post.createdAt !== post.updatedAt && (
+                        <p className={styles.updatedAt}>
+                            Updated at:{" "}
+                            {new Date(post.updatedAt)
+                                .toUTCString()
+                                .replace(/:\d+ GMT/, "")}
+                        </p>
+                    )}
+                </div>
+                <hr />
+                <div className={styles.text} dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(post.text)}}/>
+
+                <h2  className={styles.commentsSection}>Comments</h2>
+                {
+                    userId &&
+                    (
+                        <form className={styles.formComment}>
+                            <label className={styles.label} htmlFor="text-send">Enter your comment:</label>
+                            <textarea className={styles.textarea} onChange={handlePost}  value={postInput} name="text" id="text-send" cols="20" rows="5"></textarea>
+                            <button className={styles.button} onClick={postComment} type="submit">Submit</button>
+                        </form>
+                    )
+                }
+                {comments.map((comment) => {
+                    return (
+                        <div className={styles.commentBox} key={comment.id}>
+                            {editId === comment.id ? (
+                                <form className={styles.formEdit} action="">
+                                    <label className={styles.labelEdit} htmlFor="text-edit">Edit your comment</label>
+                                    <textarea className={styles.textareaEdit} id="text-edit" value={editInput || comment.text} onChange={handleEdit} name="text"></textarea>
+                                    <button className={styles.buttonEdit} onClick={hideEditing}>Cancel</button> <button onClick={editComment}>Ok</button>
+                                </form>
+                            ) : (
+                                <div className={styles.comment}>
+                                    <p className={styles.commentUsername}>{comment.author.username}</p>
+                                    <div className={styles.commentText}>{comment.text}</div>
+                                    <span className={styles.CommentDate}>
+                                        create the:{" "}
+                                        {comment.createdAt.split("T")[0]}
+                                    </span>
+                                    {comment.createdAt !== comment.updatedAt && (
+                                        <span className={styles.modified}>modified</span>
+                                    )}
+                                    {userId && (
+                                        <div className={styles.buttonsContainer}>
+                                            <button className={styles.editButton} onClick={() => showEditing(comment.id)}>Edit</button>
+                                            <button className={styles.deleteButton} onClick={() => deleteComment(comment.id)}>Delete</button>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+                    );
+                })}
+            </main>
         </>
     );
 }

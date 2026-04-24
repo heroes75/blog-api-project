@@ -1,0 +1,28 @@
+.main {
+    padding: 10px;
+}
+
+.title {
+    font-size: 3rem;
+    margin-left: 1.5rem;
+}
+
+.infoBlog * {
+    margin: 0;
+}
+
+.username {
+    font-weight: bolder;
+    font-size: 1.2rem;
+}
+
+.createdAt, .updatedAt {
+    text-align: end;
+    margin-right: 22px;
+    font-weight: 545;
+}
+
+.text {
+    max-width: 100vw;
+    font-size: 1.3rem;
+}

@@ -48,10 +48,9 @@ describe("if user type wrong input it's should be display the message error", ()
         await user.type(inputUsername, "qwerty");
         await user.type(inputPassword, "qwerty");
         await user.click(button);
-        expect(screen.getAllByRole("listitem").length).toEqual(1);
-        expect(screen.getAllByRole("listitem")[0].textContent).toBe(
-            "incorrect username",
-        );
+        const listItems = screen.getAllByRole("listitem")
+        expect(screen.getAllByRole("listitem").length).toBeGreaterThanOrEqual(3);
+        expect(listItems[listItems.length - 1].textContent).toEqual('incorrect username')
     });
     test("if user type an incorrect it's should display an error", async () => {
         window.fetch = vi.fn(() =>
@@ -69,10 +68,9 @@ describe("if user type wrong input it's should be display the message error", ()
         await user.type(inputUsername, "qwerty");
         await user.type(inputPassword, "qwerty");
         await user.click(button);
-        expect(screen.getAllByRole("listitem").length).toEqual(1);
-        expect(screen.getAllByRole("listitem")[0].textContent).toBe(
-            "incorrect password",
-        );
+        const listItems = screen.getAllByRole("listitem")
+        expect(screen.getAllByRole("listitem").length).toBeGreaterThanOrEqual(3);
+        expect(listItems[listItems.length - 1].textContent).toEqual('incorrect password')
     });
 });
 

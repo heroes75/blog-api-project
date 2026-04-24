@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import { describe, test, vi, expect, beforeEach } from "vitest";
 import SignupForm from "../Components/signupPage";
 import userEvent from "@testing-library/user-event";
@@ -61,7 +61,8 @@ describe("if user type a wrong input it's should be show the right message error
     });
     test('if user type an empty password, username or confirm password it\'s should be show "Please enter.."', async () => {
         const button = screen.getByRole("button");
-        const messageError = screen.getByRole("list");
+        const main = screen.getByRole('main')
+        const messageError = within(main).getByRole("list");
         const user = userEvent.setup();
         await user.click(button);
         expect(messageError).toContainElement(
@@ -78,10 +79,11 @@ describe("if user type a wrong input it's should be show the right message error
         const button = screen.getByRole("button");
         const inputUsername = screen.getByPlaceholderText("your username");
         const inputPassword = screen.getByPlaceholderText("your password");
+        const main = screen.getByRole('main')
         const inputConfirmPassword = screen.getByPlaceholderText(
             "Confirm your password",
         );
-        const messageError = screen.getByRole("list");
+        const messageError = within(main).getByRole("list");
         const user = userEvent.setup();
         await user.type(inputUsername, "h1£");
         await user.type(inputPassword, "h1");
@@ -106,7 +108,8 @@ describe("if user type a wrong input it's should be show the right message error
     test("if user type a password with no number should display an error", async () => {
         const button = screen.getByRole("button");
         const inputPassword = screen.getByPlaceholderText("your password");
-        const messageError = screen.getByRole("list");
+        const main = screen.getByRole('main')
+        const messageError = within(main).getByRole("list");
         const user = userEvent.setup();
         await user.type(inputPassword, "qwertyqwerty");
         await user.click(button);
@@ -119,7 +122,8 @@ describe("if user type a wrong input it's should be show the right message error
     test("if user type a password with no upper case it's should display an error", async () => {
         const button = screen.getByRole("button");
         const inputPassword = screen.getByPlaceholderText("your password");
-        const messageError = screen.getByRole("list");
+        const main = screen.getByRole('main')
+        const messageError = within(main).getByRole("list");
         const user = userEvent.setup();
         await user.type(inputPassword, "qwertyqwerty1");
         await user.click(button);
@@ -132,7 +136,8 @@ describe("if user type a wrong input it's should be show the right message error
     test("if user type a password with no non-alphanumeric character it's should display an error", async () => {
         const button = screen.getByRole("button");
         const inputPassword = screen.getByPlaceholderText("your password");
-        const messageError = screen.getByRole("list");
+        const main = screen.getByRole('main')
+        const messageError = within(main).getByRole("list");
         const user = userEvent.setup();
         await user.type(inputPassword, "qwertyqwerty1A");
         await user.click(button);
@@ -197,7 +202,8 @@ describe("user can send a http form", async () => {
         const inputConfirmPassword = screen.getByPlaceholderText(
             "Confirm your password",
         );
-        const messageError = screen.getByRole("list");
+        const main = screen.getByRole('main')
+        const messageError = within(main).getByRole("list");
         const user = userEvent.setup();
         await user.type(inputUsername, "h1roes75");
         await user.type(inputPassword, "1234567@A");

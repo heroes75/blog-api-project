@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
 import { useParams } from "react-router";
+import styles from '../styles/PostPage.module.css'
 
 export default function Post() {
     const { postId } = useParams();

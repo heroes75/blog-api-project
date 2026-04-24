@@ -1,8 +1,11 @@
 const { prisma } = require("../lib/prisma");
 
 async function getAllPosts(req, res) {
-    res.json({
+    const user = req.user
+    console.log('user:', user)
+    res.status(200).json({
         posts: req.context.models.posts.filter((post) => post.published),
+        user:  user ? {username: user.username, id: user.id} : undefined
     });
 }
 

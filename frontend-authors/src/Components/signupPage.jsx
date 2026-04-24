@@ -1,5 +1,7 @@
 import { useRef, useState } from "react"
 import { useNavigate } from "react-router"
+import styles from '../styles/SignupPage.module.css'
+import Header from "./Header"
 
 export default function SignupForm() {
     const [username, setUsername] = useState('')
@@ -11,6 +13,7 @@ export default function SignupForm() {
     const inputPassword = useRef(null)
     const inputConfirmPassword = useRef(null)
     const form = useRef(null)
+    
     function handleUsername (e) {
         setUsername(e.target.value)
     }
@@ -109,18 +112,21 @@ export default function SignupForm() {
     }
     return (
         <>
-            <form ref={form} role="form" action="" method="post">
-                <ul>
-                    {errorMessages.map(message => <li aria-label={message} key={message}>{message}</li>)}
-                </ul>
-                <label htmlFor="username">Enter your username: </label>
-                <input  value={username} onChange={(e) => handleUsername(e)} ref={inputUsername}  type="text" id="username" name="username" placeholder="your username"/>
-                <label htmlFor="password">Enter your password: </label>
-                <input type="password" value={password} ref={inputPassword} onChange={e=> handlePassword(e)} id="password" name="password" placeholder="your password" />
-                <label htmlFor="confirmPassword">Confirm your password: </label>
-                <input type="password" value={confirmPassword} ref={inputConfirmPassword} onChange={e => handleConfirmPassword(e)} id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" />
-                <button type="submit" onClick={e => handleSubmit(e)}>Submit</button>
-            </form>
+            <Header isConnected={false} />
+            <main className={styles.main}>
+                <form className={styles.form} ref={form} role="form" action="" method="post">
+                    <ul className={styles.ul}>
+                        {errorMessages.map(message => <li aria-label={message} key={message}>{message}</li>)}
+                    </ul>
+                    <label className={styles.label} htmlFor="username">Enter your username: </label>
+                    <input className={styles.input} value={username} onChange={(e) => handleUsername(e)} ref={inputUsername}  type="text" id="username" name="username" placeholder="your username"/>
+                    <label className={styles.label} htmlFor="password">Enter your password: </label>
+                    <input className={styles.input} type="password" value={password} ref={inputPassword} onChange={e=> handlePassword(e)} id="password" name="password" placeholder="your password" />
+                    <label className={styles.label} htmlFor="confirmPassword">Confirm your password: </label>
+                    <input className={styles.input} type="password" value={confirmPassword} ref={inputConfirmPassword} onChange={e => handleConfirmPassword(e)} id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" />
+                    <div className={styles.buttonContainer}><button className={styles.button} type="submit" onClick={e => handleSubmit(e)}>Submit</button></div>
+                </form>
+            </main>
         </>
     )
 }

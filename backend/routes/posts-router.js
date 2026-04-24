@@ -11,7 +11,7 @@ const verifyAuthorToken = require('../helper/verifyAuthorToken')
 
 const postsRouter = Router()
 
-postsRouter.get('/', getAllPosts)
+postsRouter.get('/', verifyReaderToken, getAllPosts)
 postsRouter.post('/', verifyAuthorToken, createPost)
 postsRouter.get('/authors', verifyAuthorToken, getCreatePost)
 postsRouter.get('/dashboard', verifyAuthorToken, getAllPostOfUser)

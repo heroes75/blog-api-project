@@ -1,22 +1,32 @@
 import { useEffect, useState } from "react";
-import "./App.css";
+import styles from "./App.module.css";
 import { Link } from "react-router";
+import Header from "./Components/Header";
 
 function App() {
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [posts, setPosts] = useState([]);
+    const [user, setUser] = useState(null)
 
     useEffect(() => {
         let ignore = false;
 
-        fetch("http://localhost:8000/")
+        fetch("http://localhost:8000/", {
+            method: 'GET',
+            type: 'cors',
+            headers: {
+                authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        })
             .then((res) => {
                 return res.json();
             })
             .then((res) => {
                 if (!ignore) {
                     setPosts(res.posts);
+                    console.log('res.user:', res.user)
+                    setUser(res.user)
                 }
                 return res;
             })
@@ -36,24 +46,25 @@ function App() {
 
     return (
         <>
-            {!isLoading ? (
-                <div>
-                    <ul>
+            <Header isConnected={!!user}/>
+            <main className={styles.main}>
+                {!isLoading ? (
+                    <div className={styles.postsContainer}>
                         {posts.map((post) => {
                             return (
-                                <div key={post.id}>
-                                    <h3>{post.title}</h3>
-                                    <p>{post.text}</p>
-                                    <p>posted by: {post.createdAt}</p>
-                                    <Link to={`posts/${post.id}`}>see more...</Link>
+                                <div className={styles.post} key={post.id}>
+                                    <h3 className={styles.title}>{post.title}</h3>
+                                    <p className={styles.text}>{post.text}</p>
+                                    <p className={styles.date}>posted by: {post.createdAt.split('T')[0]}</p>
+                                    <Link className={styles.link} to={`posts/${post.id}`}>see more...</Link>
                                 </div>
                             );
                         })}
-                    </ul>
-                </div>
-            ) : (
-                <p>isLoading...</p>
-            )}
+                    </div>
+                ) : (
+                    <p>isLoading...</p>
+                )}
+            </main>
         </>
     );
 }

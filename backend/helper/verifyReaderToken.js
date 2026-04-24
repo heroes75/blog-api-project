@@ -1,7 +1,8 @@
 const jwt = require('jsonwebtoken')
 function verifyReaderToken(req, res, next) {
+    console.log('bearer:', bearer)
     const bearer = req.headers['authorization']
-    // console.log('bearer:', bearer)
+    console.log('bearer:', bearer)
 
     if (typeof bearer === 'undefined') {
         req.user = undefined

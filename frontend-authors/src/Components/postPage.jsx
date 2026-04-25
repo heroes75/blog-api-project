@@ -138,7 +138,7 @@ export default function Post() {
             <Header isConnected={!!userId}/>
             <main className={styles.main}>
                 <h1 className={styles.title}>{post.title}</h1>
-                <hr />
+                <hr/>
                 <div className={styles.infoBlog}>
                     <p className={styles.username}>{post.author.username}</p>
                     <p className={styles.createdAt}>
@@ -157,7 +157,9 @@ export default function Post() {
                 <hr />
                 <div className={styles.text} dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(post.text)}}/>
 
-                <h2  className={styles.commentsSection}>Comments</h2>
+                <div className={styles.commentTitle}>
+                    <h2  className={styles.commentsSection}>Comments</h2><span className={styles.hr}></span>
+                </div>
                 {
                     userId &&
                     (
@@ -168,37 +170,39 @@ export default function Post() {
                         </form>
                     )
                 }
-                {comments.map((comment) => {
-                    return (
-                        <div className={styles.commentBox} key={comment.id}>
-                            {editId === comment.id ? (
-                                <form className={styles.formEdit} action="">
-                                    <label className={styles.labelEdit} htmlFor="text-edit">Edit your comment</label>
-                                    <textarea className={styles.textareaEdit} id="text-edit" value={editInput || comment.text} onChange={handleEdit} name="text"></textarea>
-                                    <button className={styles.buttonEdit} onClick={hideEditing}>Cancel</button> <button onClick={editComment}>Ok</button>
-                                </form>
-                            ) : (
-                                <div className={styles.comment}>
-                                    <p className={styles.commentUsername}>{comment.author.username}</p>
-                                    <div className={styles.commentText}>{comment.text}</div>
-                                    <span className={styles.CommentDate}>
-                                        create the:{" "}
-                                        {comment.createdAt.split("T")[0]}
-                                    </span>
-                                    {comment.createdAt !== comment.updatedAt && (
-                                        <span className={styles.modified}>modified</span>
-                                    )}
-                                    {userId && (
-                                        <div className={styles.buttonsContainer}>
-                                            <button className={styles.editButton} onClick={() => showEditing(comment.id)}>Edit</button>
-                                            <button className={styles.deleteButton} onClick={() => deleteComment(comment.id)}>Delete</button>
-                                        </div>
-                                    )}
-                                </div>
-                            )}
-                        </div>
-                    );
-                })}
+                <div className={styles.commentsContainer}>
+                    {comments.map((comment) => {
+                        return (
+                            <div className={styles.commentBox} key={comment.id}>
+                                {editId === comment.id ? (
+                                    <form className={styles.formEdit} action="">
+                                        <label className={styles.labelEdit} htmlFor="text-edit">Edit your comment</label>
+                                        <textarea className={styles.textareaEdit} id="text-edit" value={editInput || comment.text} cols='50' rows='2' onChange={handleEdit} name="text"></textarea>
+                                        <div className="buttonsContainer"><button className={styles.buttonDelete} onClick={hideEditing}>Cancel</button> <button className={styles.buttonEdit} onClick={editComment}>Ok</button></div>
+                                    </form>
+                                ) : (
+                                    <div className={styles.comment}>
+                                        <span className={styles.commentUsername}>{comment.author.username}</span>
+                                        <div className={styles.commentText}>{comment.text}</div>
+                                        <span className={styles.commentDate}>
+                                            {/* create the:{" "} */}
+                                            {comment.createdAt.split("T")[0]}
+                                        </span>
+                                        {comment.createdAt !== comment.updatedAt && (
+                                            <span className={styles.modified}>modified</span>
+                                        )}
+                                        {userId && (
+                                            <div className={styles.buttonsContainer}>
+                                                <button className={styles.editButton} onClick={() => showEditing(comment.id)}>Edit</button>
+                                                <button className={styles.deleteButton} onClick={() => deleteComment(comment.id)}>Delete</button>
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+                            </div>
+                        );
+                    })}
+                </div>
             </main>
         </>
     );

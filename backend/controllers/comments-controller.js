@@ -22,6 +22,13 @@ async function postComment(req, res) {
             text,
             authorId: req.user.id,
             postsId: post.id
+        },
+        include: {
+            author: {
+                select: {
+                    username: true
+                }
+            }
         }
     })
 console.log('comment:', comment)

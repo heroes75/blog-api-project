@@ -3,8 +3,13 @@ const { prisma } = require("../lib/prisma");
 async function getAllPosts(req, res) {
   const user = req.user;
   console.log("user:", user);
+  const posts = await prisma.posts.findMany({
+    where: {
+        published: true
+    }
+  }); 
   res.status(200).json({
-    posts: req.context.models.posts.filter((post) => post.published),
+    posts: posts,
     user: user ? { username: user.username, id: user.id } : undefined,
   });
 }

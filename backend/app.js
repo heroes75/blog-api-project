@@ -16,17 +16,17 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(async (req, res, next) => {
-  const posts = await prisma.posts.findMany();
-  const comments = await prisma.comments.findMany();
-  req.context = {
-    models: {
-      posts,
-      comments,
-    },
-  };
-  next();
-});
+// app.use(async (req, res, next) => {
+//   const posts = await prisma.posts.findMany();
+//   const comments = await prisma.comments.findMany();
+//   req.context = {
+//     models: {
+//       posts,
+//       comments,
+//     },
+//   };
+//   next();
+// });
 
 app.use("/", homeRouter);
 app.use("/signup", signupRouter);

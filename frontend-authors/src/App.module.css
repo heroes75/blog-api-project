@@ -1,34 +1,35 @@
 .main {
-    flex-grow: 2;
-    padding: 15px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  flex-grow: 2;
+  padding: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .postsContainer {
-    display: flex;
-    gap: 25px;
-    flex-wrap: wrap;
-    justify-content: center;
+  display: flex;
+  gap: 25px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .post {
-    outline: 5px solid #bbb;
-    padding: 25px;
+  outline: 5px solid #bbb;
+  padding: 25px;
 }
 
-.title, .text {
-    width: 240px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
+.title,
+.text {
+  width: 240px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .title {
-    font-size: 2rem;
+  font-size: 2rem;
 }
 
 .text {
-    font-size: 1.7rem;
+  font-size: 1.7rem;
 }

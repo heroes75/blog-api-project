@@ -1,55 +1,55 @@
 .main {
-    flex-grow: 2;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 15px;
+  flex-grow: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
 }
 
 .ul {
-    margin: o;
+  margin: o;
 }
 .ul li {
-    list-style: none;
-    color: red;
+  list-style: none;
+  color: red;
 }
 
 .form {
-    display: flex;
-    flex-direction: column;
-    gap: 11px;
-    padding: 30px;
-    outline: 7px inset black;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  padding: 30px;
+  outline: 7px inset black;
 }
 
 .label {
-    font-size: 2.5rem;
-    font-weight: bolder;
+  font-size: 2.5rem;
+  font-weight: bolder;
 }
 
 .input {
-    font-size: 2rem;
-    padding: 5px;
-    margin-left: 7px;
+  font-size: 2rem;
+  padding: 5px;
+  margin-left: 7px;
 }
 
 .buttonContainer {
-    display: flex;
-    justify-content: center;
-    padding: 15px 0;
+  display: flex;
+  justify-content: center;
+  padding: 15px 0;
 }
 
 .button {
-    font-size: 1.7rem;
-    padding: 15px 50px;
-    border-radius: 15px;
-    box-shadow: black 3px 7px;
+  font-size: 1.7rem;
+  padding: 15px 50px;
+  border-radius: 15px;
+  box-shadow: black 3px 7px;
 }
 
 .button:active {
-    box-shadow: black 3px 2px;
+  box-shadow: black 3px 2px;
 }
 
 .button:hover {
-    cursor: pointer;
+  cursor: pointer;
 }

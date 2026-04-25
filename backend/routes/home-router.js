@@ -2,9 +2,8 @@ const { Router } = require("express");
 const { getAllPosts } = require("../controllers/posts-controller");
 const verifyReaderToken = require("../helper/verifyReaderToken");
 
-const homeRouter = Router()
+const homeRouter = Router();
 
-homeRouter.get('/',verifyReaderToken, getAllPosts)
+homeRouter.get("/", verifyReaderToken, getAllPosts);
 
-module.exports = homeRouter
-
+module.exports = homeRouter;

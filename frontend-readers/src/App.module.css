@@ -61,9 +61,8 @@
   margin: 50px auto;
   display: block;
   text-align: center;
-  background-color: #F0F0F0;
+  background-color: #f0f0f0;
   width: 120px;
-  
 }
 
 .link:hover {
@@ -74,4 +73,3 @@
   text-decoration: none;
   font-size: 22px;
 }
-

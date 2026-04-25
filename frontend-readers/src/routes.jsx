@@ -5,26 +5,26 @@ import LoginPage from "./LoginPage";
 import SignupPage from "./SignupPAge";
 
 const routes = [
-    {
-        element: <App/>,
-        path: '/'
-    },
-    {
-        element: <SignupPage/>,
-        path: '/signup'
-    },
-    {
-        element: <LoginPage/>,
-        path: '/login',
-    },
-    {
-        element: <CreatePost/>,
-        path: '/posts'
-    },
-    {
-        element: <EditPost/>,
-        path: '/posts/:postId'
-    }
-]
+  {
+    element: <App />,
+    path: "/",
+  },
+  {
+    element: <SignupPage />,
+    path: "/signup",
+  },
+  {
+    element: <LoginPage />,
+    path: "/login",
+  },
+  {
+    element: <CreatePost />,
+    path: "/posts",
+  },
+  {
+    element: <EditPost />,
+    path: "/posts/:postId",
+  },
+];
 
-export default routes
+export default routes;

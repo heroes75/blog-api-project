@@ -38,6 +38,8 @@ const validateRole = body("role")
 
 const validateConfirmPassword = body("confirmPassword")
   .custom((value, { req }) => {
+    console.log('value:', value)
+    console.log('req.body.password:', req.body.password)
     if (value !== req.body.password) throw new Error("");
   })
   .withMessage("your two passwords must be equal");

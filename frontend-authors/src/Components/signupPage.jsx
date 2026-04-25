@@ -102,6 +102,7 @@ export default function SignupForm() {
         username: username,
         password: password,
         role: "READER",
+        confirmPassword,
       }),
       headers: {
         "Content-type": "application/json",

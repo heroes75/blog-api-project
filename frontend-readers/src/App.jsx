@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import styles from "./App.module.css";
 import { Link, useNavigate } from "react-router";
 import Header from "./Components/Header";
+// import 'dotenv/config'
 
 function App() {
   const [posts, setPosts] = useState([]);

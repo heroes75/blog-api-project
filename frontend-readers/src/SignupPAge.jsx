@@ -25,7 +25,7 @@ export default function SignupPage() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    fetch("http://localhost:8000/signup", {
+    fetch("https://blog-api-project-backend.vercel.app/signup", {
       method: "POST",
       headers: {
         "content-type": "application/json",

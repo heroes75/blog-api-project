@@ -7,12 +7,12 @@ const signupRouter = require("./routes/signup-router");
 const loginRouter = require("./routes/login-router");
 const postsRouter = require("./routes/posts-router");
 const logoutRouter = require("./routes/logout-router");
-const { prisma } = require("./lib/prisma");
+// const { prisma } = require("./lib/prisma");
 const homeRouter = require("./routes/home-router");
 
 const app = express();
 
-app.use(cors());
+app.options('*', cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

@@ -12,7 +12,16 @@ const homeRouter = require("./routes/home-router");
 
 const app = express();
 
-app.options('*', cors());
+
+const corsOptions = {
+    origin: ['http://localhost'],
+    allowedHeaders: ["Content-Type", "Authorization", "Access-Control-Allow-Methods", "Access-Control-Request-Headers"],
+    credentials: true,
+    enablePreflight: true
+}
+
+app.use(cors(corsOptions))
+// app.options('*', cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

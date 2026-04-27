@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import styles from "./App.module.css";
 import { Link, useNavigate } from "react-router";
 import Header from "./Components/Header";
-// import 'dotenv/config'
 
 function App() {
   const [posts, setPosts] = useState([]);
@@ -12,7 +11,7 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:8000/posts/dashboard", {
+    fetch(import.meta.env.VITE_URL_API + "/posts/dashboard", {
       method: "GET",
       type: "cors",
       headers: {
@@ -34,7 +33,7 @@ function App() {
   function handleDelete(id) {
     confirm("Are you shure ?");
     setPosts(posts.filter((post) => post.id !== id));
-    fetch("http://localhost:8000/posts/" + id, {
+    fetch(import.meta.env.VITE_URL_API + "/posts/" + id, {
       method: "DELETE",
       type: "cors",
       headers: {
@@ -60,7 +59,7 @@ function App() {
       }),
     );
     const post = posts.filter((post) => post.id === id);
-    fetch("http://localhost:8000/posts/" + id, {
+    fetch(import.meta.env.VITE_URL_API + "/posts/" + id, {
       method: "PUT",
       type: "cors",
       headers: {

@@ -95,7 +95,7 @@ export default function SignupForm() {
       return;
     }
 
-    fetch(import.meta.env.VITE_URL_API + "/signup", {
+    fetch(import.meta.env.VITE_API_URL + "/signup", {
       method: "POST",
       type: "cors",
       body: JSON.stringify({

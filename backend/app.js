@@ -12,7 +12,7 @@ const homeRouter = require("./routes/home-router");
 const app = express();
 
 const corsPolicy = {
-  "origin": '*',
+  "origin": [/http:\/\/localhost:*/, /http:\/\/127.0.0.1:5174\/?/, 'https://blog-api-project-frontend-author.vercel.app', 'https://cute-gnome-b9e595.netlify.app', 'https://blog-api-project-frontend-author-1amn7kx73-heroes75s-projects.vercel.app'],
   "methods": ['GET', 'PUT', 'POST', 'DELETE'],
   "allowedHeaders": ['Content-Type', 'Authorization', 'authorization'],
   "credentials": true,
@@ -33,6 +33,15 @@ app.use(
   logoutRouter,
 );
 app.use("/posts", postsRouter);
+
+
+app.use('/', (req, res) => {
+  res.status(401).json({message: 'We don\'t find what you want'})
+})
+
+app.use('/', (req, res, next, err) => {
+  res.status(500).json({message: 'Server Error'})
+})
 
 app.listen(process.env.PORT, (err) => {
   if (err) {

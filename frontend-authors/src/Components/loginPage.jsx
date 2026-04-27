@@ -28,6 +28,7 @@ export default function Login() {
     })
       .then((res) => res.json())
       .then((res) => {
+        console.log('res:', res)
         if (res.statusCode >= 400) {
           return setMessageError(res.message);
         }

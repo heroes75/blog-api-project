@@ -20,6 +20,12 @@ export default function LoginPage() {
       if (res.status === 302) {
         return navigate("/");
       }
+      return res.json()
+    }).then(res => {
+    console.log('res:', res)
+
+    }).catch(err => {
+      console.log('err:', err)
     });
   });
 

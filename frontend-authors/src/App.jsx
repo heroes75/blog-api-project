@@ -12,7 +12,7 @@ function App() {
   useEffect(() => {
     let ignore = false;
 
-    fetch("http://localhost:8000/", {
+    fetch(import.meta.env.VITE_API_URL, {
       method: "GET",
       type: "cors",
       headers: {
@@ -66,7 +66,7 @@ function App() {
             })}
           </div>
         ) : (
-          <p>isLoading...</p>
+          <h1>isLoading...</h1>
         )}
       </main>
     </>

@@ -11,10 +11,14 @@ const homeRouter = require("./routes/home-router");
 
 const app = express();
 
-
-
-
-app.use(cors())
+const corsPolicy = {
+  origin: '*',
+  methods: ['GET', 'PUT', 'POST', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+  preflightContinue: true
+}
+app.use(cors(corsPolicy))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

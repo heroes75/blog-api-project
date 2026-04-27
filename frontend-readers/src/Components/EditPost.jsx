@@ -13,7 +13,7 @@ export default function EditPost() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`http://localhost:8000/posts/update/${postId}`, {
+    fetch(`${import.meta.env.VITE_URL_API}/posts/update/${postId}`, {
       method: "GET",
       type: "cors",
       headers: {
@@ -38,7 +38,7 @@ export default function EditPost() {
   }, [postId]);
 
   function handleSubmit() {
-    fetch("http://localhost:8000/posts/" + postId, {
+    fetch(import.meta.env.VITE_URL_API + "/posts/" + postId, {
       method: "PUT",
       type: "cors",
       headers: {

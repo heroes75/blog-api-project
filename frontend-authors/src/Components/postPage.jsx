@@ -15,7 +15,7 @@ export default function Post() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   useEffect(() => {
-    fetch(`http://localhost:8000/posts/${postId}`, {
+    fetch(`${import.meta.env.VITE_URL_API}/posts/${postId}`, {
       method: "GET",
       type: "cors",
       headers: {
@@ -62,7 +62,7 @@ export default function Post() {
     const filteredComments = comments.filter((comment) => comment.id !== id);
 
     setComments(filteredComments);
-    fetch(`http://localhost:8000/posts/${postId}/comments/${id}`, {
+    fetch(`${import.meta.env.VITE_URL_API}/posts/${postId}/comments/${id}`, {
       method: "DELETE",
       type: "cors",
       headers: {
@@ -83,7 +83,7 @@ export default function Post() {
     const text = postInput;
 
     setPostInput("");
-    fetch("http://localhost:8000/posts/" + postId + "/comments", {
+    fetch(import.meta.env.VITE_URL_API + "/posts/" + postId + "/comments", {
       method: "POST",
       type: "cors",
       headers: {
@@ -116,7 +116,7 @@ export default function Post() {
     );
     setEditId("");
     setEditInput("");
-    fetch(`http://localhost:8000/posts/${postId}/comments/${editId}`, {
+    fetch(`${import.meta.env.VITE_URL_API}/posts/${postId}/comments/${editId}`, {
       method: "put",
       headers: {
         "content-type": "application/json",

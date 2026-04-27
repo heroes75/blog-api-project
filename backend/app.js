@@ -12,11 +12,12 @@ const homeRouter = require("./routes/home-router");
 const app = express();
 
 const corsPolicy = {
-  origin: '*',
-  methods: ['GET', 'PUT', 'POST', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,
-  preflightContinue: true
+  "origin": '*',
+  "methods": ['GET', 'PUT', 'POST', 'DELETE'],
+  "allowedHeaders": ['Content-Type', 'Authorization', 'authorization'],
+  "credentials": true,
+  "preflightContinue": true,
+  "optionsSuccessStatus": 204
 }
 app.use(cors(corsPolicy))
 app.use(express.json());

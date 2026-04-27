@@ -14,6 +14,9 @@ const strategy = new JwtStrategy(opts, async (just_payload, done) => {
     where: {
       id: just_payload.user.id,
     },
+    omit: {
+      password: true
+    }
   });
 
   console.log("user:", user);

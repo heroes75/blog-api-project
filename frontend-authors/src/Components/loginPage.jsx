@@ -19,7 +19,7 @@ export default function Login() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    fetch("http://localhost:8000/login", {
+    fetch(import.meta.env.VITE_API_URL + "/login", {
       method: "POST",
       headers: {
         "content-type": "application/json",

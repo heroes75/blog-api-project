@@ -15,7 +15,7 @@ async function postComment(req, res) {
       message: postNoFound,
     });
   }
-
+  console.log('req.user', req.user)
   const comment = await prisma.comments.create({
     data: {
       text,

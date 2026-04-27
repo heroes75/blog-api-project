@@ -25,7 +25,7 @@ export default function SignupPage() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    fetch("https://blog-api-project-backend.vercel.app/signup", {
+    fetch(import.meta.env.VITE_API_URL + "/signup", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -59,7 +59,7 @@ export default function SignupPage() {
     <>
       <Header isConnected={false} />
       <main className={styles.main}>
-        <form className={styles.form} role="form" method="POST">
+        <form className={styles.form} role="form">
           <ul className={styles.ul} aria-label="list">
             {msgError.map((err) => (
               <li key={err}>{err}</li>

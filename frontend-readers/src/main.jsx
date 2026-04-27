@@ -3,7 +3,6 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import routes from "./routes.jsx";
-// import 'dotenv/config'
 
 const router = createBrowserRouter(routes);
 

@@ -13,7 +13,7 @@ export default function EditPost() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_URL_API}/posts/update/${postId}`, {
+    fetch(`${import.meta.env.VITE_API_URL}/posts/update/${postId}`, {
       method: "GET",
       type: "cors",
       headers: {
@@ -38,7 +38,7 @@ export default function EditPost() {
   }, [postId]);
 
   function handleSubmit() {
-    fetch(import.meta.env.VITE_URL_API + "/posts/" + postId, {
+    fetch(import.meta.env.VITE_API_URL + "/posts/" + postId, {
       method: "PUT",
       type: "cors",
       headers: {

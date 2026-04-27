@@ -12,7 +12,7 @@ export default function CreatePost() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:8000/posts/authors", {
+    fetch(import.meta.env.VITE_API_URL + "/posts/authors", {
       method: "GET",
       type: "cors",
       headers: {
@@ -28,7 +28,7 @@ export default function CreatePost() {
   }, []);
 
   const handleSubmit = () => {
-    fetch("http://localhost:8000/posts/", {
+    fetch(import.meta.env.VITE_API_URL + "/posts/", {
       method: "POST",
       type: "cors",
       headers: {

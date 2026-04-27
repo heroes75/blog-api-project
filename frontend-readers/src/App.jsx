@@ -11,7 +11,7 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(import.meta.env.VITE_URL_API + "/posts/dashboard", {
+    fetch(import.meta.env.VITE_API_URL + "/posts/dashboard", {
       method: "GET",
       type: "cors",
       headers: {
@@ -26,20 +26,26 @@ function App() {
         setPosts(res.posts);
         setUser(res.user);
       })
-      .catch((err) => setError(err))
+      .catch((err) => {
+        console.error('err:', err)
+        setError(err)
+      })
       .finally(() => setLoading(false));
   }, []);
 
   function handleDelete(id) {
     confirm("Are you shure ?");
     setPosts(posts.filter((post) => post.id !== id));
-    fetch(import.meta.env.VITE_URL_API + "/posts/" + id, {
+    fetch(import.meta.env.VITE_API_URL + "/posts/" + id, {
       method: "DELETE",
       type: "cors",
       headers: {
         authorization: `Bearer ${localStorage.getItem("token")}`,
       },
-    }).catch((err) => setError(err));
+    }).catch((err) => {
+      console.error('err:', err)
+      setError(err)}
+    );
   }
 
   function handleEdit(id) {
@@ -59,7 +65,7 @@ function App() {
       }),
     );
     const post = posts.filter((post) => post.id === id);
-    fetch(import.meta.env.VITE_URL_API + "/posts/" + id, {
+    fetch(import.meta.env.VITE_API_URL + "/posts/" + id, {
       method: "PUT",
       type: "cors",
       headers: {

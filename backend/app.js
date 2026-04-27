@@ -7,35 +7,17 @@ const signupRouter = require("./routes/signup-router");
 const loginRouter = require("./routes/login-router");
 const postsRouter = require("./routes/posts-router");
 const logoutRouter = require("./routes/logout-router");
-// const { prisma } = require("./lib/prisma");
 const homeRouter = require("./routes/home-router");
 
 const app = express();
 
 
-const corsOptions = {
-    origin: ['http://localhost'],
-    allowedHeaders: ["Content-Type", "Authorization", "Access-Control-Allow-Methods", "Access-Control-Request-Headers"],
-    credentials: true,
-    enablePreflight: true
-}
 
-app.use(cors(corsOptions))
-// app.options('*', cors(corsOptions));
+
+app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// app.use(async (req, res, next) => {
-//   const posts = await prisma.posts.findMany();
-//   const comments = await prisma.comments.findMany();
-//   req.context = {
-//     models: {
-//       posts,
-//       comments,
-//     },
-//   };
-//   next();
-// });
 
 app.use("/", homeRouter);
 app.use("/signup", signupRouter);

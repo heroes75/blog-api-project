@@ -19,7 +19,10 @@ function App() {
       },
     })
       .then((res) => {
-        if (res.status >= 400) throw new Error(res.statusText);
+        if (res.status >= 400) {
+          console.log('res.statusText:', res.statusText)
+          throw new Error(res.statusText ? res.statusText : 'Error');
+        }
         return res.json();
       })
       .then((res) => {
@@ -27,8 +30,9 @@ function App() {
         setUser(res.user);
       })
       .catch((err) => {
-        console.error('err:', err)
         setError(err)
+        console.log('err:', err.message)
+        console.error('err:', err)
       })
       .finally(() => setLoading(false));
   }, []);
@@ -43,8 +47,9 @@ function App() {
         authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     }).catch((err) => {
+      setError(err)
       console.error('err:', err)
-      setError(err)}
+    }
     );
   }
 
@@ -91,7 +96,7 @@ function App() {
   }
 
   if (loading) return <h1>Loading...</h1>;
-  if (error) return <h1>{error.message}</h1>;
+  if (error) return <h1>{error.message} </h1>;
 
   return (
     <>

@@ -104,7 +104,9 @@ async function deletePost(req, res) {
 async function getAllPostOfUser(req, res) {
   const user = req.user;
   if (!user) {
-    return res.status(401).json({ message: res.statusText });
+    console.log('res.statusText:', res.statusText)
+    res.msgError = 'UnAuthorized error'
+    return res.status(401).json({ message: res.msgError });
   }
   const posts = await prisma.posts.findMany({
     where: {

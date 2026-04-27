@@ -10,7 +10,7 @@ export default function LoginPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("https://blog-api-project-backend.vercel.app/login", {
+    fetch(import.meta.env.VITE_API_URL + "/login", {
       method: "GET",
       type: "cors",
       headers: {
